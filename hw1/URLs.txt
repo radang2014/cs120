@@ -1,0 +1,7 @@
+Here are the URLs to the websites for this assignment. I am 
+sending these in a file because I don't see a way to submit 
+files AND URLs on Canvas together.
+
+GitHub Pages: https://radang2014.github.io/cs120/hw1/me.html
+Siteground: https://randyd.sgedu.site/hw1/me.html
+
