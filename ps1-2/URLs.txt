@@ -1,0 +1,9 @@
+Here are the URLs to the websites for this assignment:
+
+Portfolio: https://radang2014.github.io/cs120/portfolio.html
+
+Additional note: the submitted me_two.html is not 100% 
+functional on its own because it depends on image files that were 
+NOT submitted. They are, however, included in the corresponding 
+websites on both GitHub Pages and Siteground.
+

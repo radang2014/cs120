@@ -35,6 +35,7 @@
                 display: block;
                 border: 5px solid black;
                 margin: 0 auto;
+                width: 50%;
                 max-width: 250px;
             }
             div#food {
@@ -43,16 +44,31 @@
             }
             div#food_pic {
                 background-image: url("images/chicken_parm.png");
+                background-size: contain;
                 display: inline-block;
-                width: 500px;
-                height: 333px;
-                margin: 0 10px 0 0; /* add margin to the right */
+                max-width: 500px;
+                max-height: 333px;
+                width: 50%;
+                aspect-ratio: 3/2; /* make height adjust with width to maintain aspect ratio */
+                margin: 0 1% 0 0; /* add margin to the right */
             }
             div#food_desc {
                 display: inline-block;
-                width: 300px;
+                max-width: 300px;
                 height: auto;
-                margin: 0 0 0 10px; /* add margin to the left */
+                width: 45%; /* ensure description is to the side regardless of screen size */
+                margin: 0 0 0 1%; /* add margin to the left */
+            }
+            table#books {
+                max-width: 980px;
+                width: 100%;
+            }
+            table#books tr {
+                width: 25%;
+            }
+            table#books img {
+                width: 100%;
+                height: auto;
             }
             table#books tr:nth-child(even) {
                 background-color: salmon;
@@ -83,6 +99,22 @@
             /* Align text in left column to the right */
             form#info_form td:nth-child(odd) {
                 text-align: right
+            }
+
+            /* Adjustments based on lower screen width */
+            @media (max-width: 980px) {
+                h1 {
+                    font-size: 45px;
+                }
+                h2 {
+                    font-size: 30px;
+                }
+                h3 {
+                    font-size: 15px;
+                }
+                p,em,ul,div,table {
+                    font-size: 12px;
+                }
             }
         </style>
     </head>
