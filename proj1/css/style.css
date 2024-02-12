@@ -1,0 +1,110 @@
+body {
+    max-width: 945px; /* the pixel amount for 25 cm screen width */
+    width: 100%;
+}
+
+/* Selectors related to the "look" of the overall page */
+a.title {
+    text-decoration: none;
+}
+div.red_stripe {
+    /* hex for red stripe obtained from: https://www.flagcolorcodes.com/usa */
+    background-color: #B31942; /* red stripe */
+    border: 2px solid black;
+}
+div.stars {
+    /* Starry image designed for left side of red stripes */
+    background-image: url("../images/flag_stars.jpg");
+    background-size: 100%;
+    width: 20%;
+    height: 100%;
+    display: block;
+    float: left;
+}
+div.white_stripe {
+    background-color: #FFFFFF; /* white stripe */
+    border: 2px solid black;
+}
+div#top_stripe {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100px;
+    width: inherit; /* inherit both width and max-width from page body */
+    max-width: inherit;
+    display: flex;
+}
+div.inner { /* for div blocks nested inside another div */
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+div#footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    height: 20px;
+    width: inherit; /* inherit both width and max-width from page body */
+    max-width: inherit;
+    display: flex;
+}
+div.footer_elem {
+    width: 50%;
+    height: 100%;
+    display: inline-block;
+    border: 1px solid black;
+    text-align: center;
+}
+
+/* Selectors related to navigation functionality */
+div#navigation_stripe {
+    display: flex;
+    position: fixed;
+    top: 100px;
+    left: 0px;
+    height: 50px;
+    width: inherit;
+    max-width: inherit;
+}
+div.navigation { /* For single navigation button */
+    display: flex;
+    border: 1px solid black;
+    justify-content: center; /* center text horizontally */
+    align-items: center; /* center text vertically */
+    font-family: 'Protest Revolution', serif;
+    font-size: 20px;
+    background: white;
+    color: black; /* font color */
+
+    /* Width and height are relative to the anchor tag with styling specified by a.navigation */
+    width: 100%;
+    height: 100%;
+}
+div#navigation_current,div.navigation:hover { /* For navigation button corresponding to current page,
+                                                 or when hovering over another navigation button */
+    /* hex for blue color obtained from: https://www.flagcolorcodes.com/usa */
+    background: #0A3161;
+    color: white; /* font color */
+}
+a.navigation { /* For navigation links */
+    width: 20%;
+    max-width: 20%;
+    height: 100%;
+    margin: 0 auto;
+    text-decoration: none;
+}
+
+/* Selectors related to presentation of text */
+h1,.title {
+    font-family: 'Tangerine', serif;
+    font-size: 66px;
+    color: white;
+    display: flex;
+    justify-content: center; /* center text horizontally */
+    align-items: center; /* center text vertically */
+    margin: 0 auto;
+
+    /* Ensure that link attached to page title spans entire container */
+    width: 100%;
+    height: 100%;
+}
