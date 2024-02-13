@@ -24,8 +24,6 @@ div.stars {
     width: 15%;
     height: 100%;
     display: block;
-    float: left;
-    border: 1px solid black;
     position: absolute; /* Position star image relative to stripe container */
     top: 0;
     bottom: 0;
@@ -36,6 +34,18 @@ div.white_stripe {
     color: black; /* set text color to black inside a white stripe */
     display: block;
     position: relative;
+}
+div.white {
+    /* White space used to create empty space on the right side of white stripes */
+    background-color: white;
+    background-size: 100%;
+    width: 15%;
+    height: 100%;
+    display: block;
+    position: absolute; /* Position white space relative to stripe container */
+    top: 0;
+    bottom: 0;
+    right: 0;
 }
 /* Add small amount of "breathing room" between text/elements on a stripe and the stripe border */
 div.red_stripe h3,p,ul,ol,img {
@@ -60,9 +70,14 @@ div.container { /* for div blocks meant to be a "container" for other div blocks
     justify-content: center; /* center elements horizontally */
     align-items: center; /* center elements vertically */
 }
-div.stripe_inner { /* for div blocks inside a stripe containing a star background */
+div.red_stripe_inner { /* for div blocks inside a red stripe containing a star background */
     display: block;
     margin-left: 15%; /* start this block to the right of the block containing the stars image */
+    width: 85%;
+}
+div.white_stripe_inner { /* for div blocks inside a white stripe containing a white background to the right */
+    display: block;
+    margin-right: 15%;
     width: 85%;
 }
 div#header_padding { /* to pad space between the page header and content */

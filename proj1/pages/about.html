@@ -24,6 +24,16 @@
                 display: inline-block;
                 max-width: 600px;
             }
+
+            @media(max-width: 945px) {
+                /* 
+                   This rule should make it so the caption is below the image when viewing from 
+                   a phone vertically, but beside the image when viewing from a phone horizontally
+                 */
+                p.bio {
+                    max-width: 450px;
+                }
+            }
         </style>
     </head>
     <body>
@@ -31,7 +41,7 @@
         <div class="red_stripe" id="top_stripe">
             <div class="stars"></div>
             <a href="../project1.html" class="title"> <!-- Links to Home Page -->
-                <div class="stripe_inner"><h1>Stars & Stripes Ensemble</h1></div>
+                <div class="red_stripe_inner"><h1>Stars & Stripes Ensemble</h1></div>
             </a>
         </div>
 
@@ -66,7 +76,8 @@
 
         <div id="header_padding"></div>
 
-        <!-- Content -->
+        <!-- Page Content -->
+        <!-- Group Photo and Story -->
         <div class="white_stripe">
             <div class="container">
                 <div id="group_photo"></div>
@@ -80,21 +91,42 @@
             </div>
         </div>
 
+        <!-- Emily Thompson's bio -->
         <div class="red_stripe">
             <div class="stars"></div>
-            <div class="stripe_inner">
+            <div class="red_stripe_inner">
                 <div class="container">
                     <img class="bio" src="../images/singer.jpg" alt="singer.jpg" />
                     <p class="bio">
                         With a passion for singing deeply rooted in her upbringing in Topeka, Kansas, 
                         Emily Thompson brings her powerful voice and dynamic stage presence to the Stars & Stripes 
-                        Ensemble as the lead vocalist. Trained in choral music with a degree from the Berklee College 
-                        of Music and fueled by a dedication to spreading positivity and unity through her performances, 
+                        Ensemble as the lead vocalist. Trained in choral music with a degree from the 
+                        <a href="https://www.berklee.edu/" target="_blank">Berklee College of Music</a> 
+                        and fueled by a dedication to spreading positivity and unity through her performances, 
                         Emily captivates audiences with soulful renditions of patriotic anthems and timeless classics, 
                         embodying the spirit of American music with every note she sings.
                     </p>
                 </div>
             </div>
+        </div>
+
+        <div class="white_stripe">
+            <div class="white_stripe_inner">
+                <div class="container">
+                    <img class="bio" src="../images/percussion_player.jpg" alt="percussion_player.jpg" />
+                    <p class="bio">
+                        Michael Johnson brings dynamic energy and exceptional skill to his role as the percussionist of the 
+                        Stars & Stripes Ensemble. With a background steeped in jazz, rock, and classical percussion from his 
+                        studies at <a href="https://www.juilliard.edu/" target="_blank">Julliard</a>, Michael's 
+                        passion for rhythm and dedication to excellence drive the band's performances to new heights. Inspired 
+                        by the diverse rhythms of American music, Michael's versatile playing style adds depth and intensity 
+                        to the ensemble's patriotic repertoire, making him an indispensable member of the band and a true 
+                        embodiment of musical excellence and patriotism.
+                    </p>
+                    <div class="white"></div>
+                </div>
+            </div>
+            <div class="white"></div>
         </div>
 
         <!-- Footer-->
