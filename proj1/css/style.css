@@ -166,13 +166,23 @@ ul li {
     padding-left: 10px; /* add a little space between bullet point and text */
 }
 
-/* Adjust fonts for smaller screen sizes */
+/* Adjust fonts and fixed elements for smaller screen sizes */
 @media (max-width: 945px) { /* screen size smaller than max screen width */
     h1,title {
         font-size: 50px;
     }
+    div#top_stripe {
+        height: 70px;
+    }
+    div#navigation_stripe {
+        top: 70px;
+        height: 45px;
+    }
     div.navigation {
         font-size: 18px;
+    }
+    div#header_padding {
+        height: 125px;
     }
 }
 @media (max-width: 480px) { /* approximate phone screen size */
