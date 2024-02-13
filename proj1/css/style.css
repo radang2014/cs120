@@ -152,32 +152,57 @@ ul li {
 }
 
 /* Adjust fonts for smaller screen sizes */
-@media (max-width: 945px) {
+@media (max-width: 945px) { /* screen size smaller than max screen width */
     h1,title {
         font-size: 50px;
     }
-    body {
-        font-size: 15px;
-    }
     div.navigation {
-        font-size: 15px;
+        font-size: 18px;
     }
 }
-@media (max-width: 480px) {
+@media (max-width: 480px) { /* approximate phone screen size */
     h1,title {
         font-size: 35px;
     }
     div#top_stripe {
-        height: 75px;
+        height: 60px;
     }
     div#navigation_stripe {
-        top: 75px;
+        top: 60px;
         height: 40px;
     }
     div.navigation {
-        font-size: 12px;
+        font-size: 15px;
     }
-    body {
-        font-size: 12px;
+    div#header_padding {
+        height: 100px;
+    }
+}
+
+/* Selectors related to miscellaneous items that appear on multiple pages */
+#group_photo { /* Configuration for group photo if it appears on the page */
+    background-image: url("../images/banner.jpg");
+    background-size: contain;
+    max-width: 100%;
+    width: 500px;
+    aspect-ratio: 954/646; /* make height adjust with width to maintain aspect ratio */
+    margin: 0 auto 0 0; /* left justify image */
+    display: inline-block;
+}
+#group_photo_sidetext {
+    /* By default, ensure sidetext is small enough to fit to the right of the group photo */
+    max-width: 425px;
+    height: 100%;
+    display: inline-block;
+}
+@media (max-width: 945px) {
+    /* If screen size is too small, place the sidetext below the group photo */
+    #group_photo {
+        max-width: 500px;
+        width: 100%;
+        margin: 0;
+    }
+    #group_photo_sidetext {
+        max-width: 100%;
     }
 }
