@@ -1,6 +1,8 @@
 body {
     max-width: 945px; /* the pixel amount for 25 cm screen width */
     width: 100%;
+    font-family: 'Inter', serif;
+    margin: 2px;
 }
 
 /* Selectors related to the "look" of the overall page */
@@ -11,19 +13,36 @@ div.red_stripe {
     /* hex for red stripe obtained from: https://www.flagcolorcodes.com/usa */
     background-color: #B31942; /* red stripe */
     border: 2px solid black;
+    color: white; /* set text color to white inside a black stripe */
+    display: block;
+    position: relative;
 }
 div.stars {
     /* Starry image designed for left side of red stripes */
     background-image: url("../images/flag_stars.jpg");
     background-size: 100%;
-    width: 20%;
+    width: 15%;
     height: 100%;
     display: block;
     float: left;
+    border: 1px solid black;
+    position: absolute; /* Position star image relative to stripe container */
+    top: 0;
+    bottom: 0;
 }
 div.white_stripe {
     background-color: #FFFFFF; /* white stripe */
     border: 2px solid black;
+    color: black; /* set text color to black inside a white stripe */
+    display: block;
+    position: relative;
+}
+/* Add small amount of "breathing room" between text/elements on a stripe and the stripe border */
+div.red_stripe h3,p,ul,ol,img {
+    margin: 10px;
+}
+div.white_stripe h3,p,ul,ol,img {
+    margin: 10px;
 }
 div#top_stripe {
     position: fixed;
@@ -33,11 +52,26 @@ div#top_stripe {
     width: inherit; /* inherit both width and max-width from page body */
     max-width: inherit;
     display: flex;
+    z-index: 10;
 }
-div.inner { /* for div blocks nested inside another div */
-    width: 100%;
-    height: 100%;
+div.container { /* for div blocks meant to be a "container" for other div blocks */
     display: flex;
+    flex-wrap: wrap; /* have elements wrap if not enough screen width */
+    justify-content: center; /* center elements horizontally */
+    align-items: center; /* center elements vertically */
+}
+div.stripe_inner { /* for div blocks inside a stripe containing a star background */
+    display: block;
+    margin-left: 15%; /* start this block to the right of the block containing the stars image */
+    width: 85%;
+}
+div#header_padding { /* to pad space between the page header and content */
+    width: 100%;
+    height: 150px;
+}
+div#footer_padding { /* to pad space between content and page footer */
+    width: 100%;
+    height: 20px;
 }
 div#footer {
     position: fixed;
@@ -47,6 +81,7 @@ div#footer {
     width: inherit; /* inherit both width and max-width from page body */
     max-width: inherit;
     display: flex;
+    z-index: 10;
 }
 div.footer_elem {
     width: 50%;
@@ -65,6 +100,7 @@ div#navigation_stripe {
     height: 50px;
     width: inherit;
     max-width: inherit;
+    z-index: 10;
 }
 div.navigation { /* For single navigation button */
     display: flex;
@@ -107,4 +143,41 @@ h1,.title {
     /* Ensure that link attached to page title spans entire container */
     width: 100%;
     height: 100%;
+}
+ul {
+    list-style-type: "\2606"; /* set bullet point to star symbol */
+}
+ul li {
+    padding-left: 10px; /* add a little space between bullet point and text */
+}
+
+/* Adjust fonts for smaller screen sizes */
+@media (max-width: 945px) {
+    h1,title {
+        font-size: 50px;
+    }
+    body {
+        font-size: 15px;
+    }
+    div.navigation {
+        font-size: 15px;
+    }
+}
+@media (max-width: 480px) {
+    h1,title {
+        font-size: 35px;
+    }
+    div#top_stripe {
+        height: 75px;
+    }
+    div#navigation_stripe {
+        top: 75px;
+        height: 40px;
+    }
+    div.navigation {
+        font-size: 12px;
+    }
+    body {
+        font-size: 12px;
+    }
 }
