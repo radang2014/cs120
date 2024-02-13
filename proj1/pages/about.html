@@ -24,14 +24,18 @@
                 display: inline-block;
                 max-width: 600px;
             }
-
+            /* 
+               These queries should make it so the caption is below the image when viewing from 
+               a phone vertically, but beside the image when viewing from a phone horizontally
+            */
             @media(max-width: 945px) {
-                /* 
-                   This rule should make it so the caption is below the image when viewing from 
-                   a phone vertically, but beside the image when viewing from a phone horizontally
-                 */
                 p.bio {
-                    max-width: 450px;
+                    max-width: 250px;
+                }
+            }
+            @media(max-width: 480px) {
+                p.bio {
+                    max-width: 100%;
                 }
             }
         </style>
