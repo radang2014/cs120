@@ -31,6 +31,10 @@
                 height: auto;
                 display: inline-block;
             }
+            
+            .order_form_content {
+                font-size: 12px;
+            }
         </style>
     </head>
     <body>
@@ -94,22 +98,104 @@
         <div class="white_stripe">
             <div class="white_stripe_inner">
                 <h3 style="color:red;">Order Form</h3>
-                <p>Please select the item(s) you would like to purchase:</p>
 
-                <!-- Souvenir Shirt -->
-                <input type="checkbox" name="item" value="shirt" id="shirt" />
-                <label for="shirt">
-                    T-Shirt ($12.99 plus tax)
-                </label>,
-                Shirt Size: 
-                <select id="shirt_size">
-                    <option>XS</option>
-                    <option>S</option>
-                    <option>M</option>
-                    <option>L</option>
-                    <option>XL</option>
-                    <option>XXL</option>
-                </select>
+                <form method="get" action="#" id="order_form">
+                    <p>Please select the item(s) you would like to purchase:</p>
+                    <table class="order_form_content" border="0" cellpadding="5px" cellspacing="0">
+                        <!-- Souvenir Shirt -->
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="item" value="shirt" id="shirt" />
+                            </td>
+                            <td>
+                                <label for="shirt">T-Shirt ($12.99)</label>
+                            </td>
+                            <td>
+                                Shirt Size: 
+                                <select id="shirt_size">
+                                    <option>XS</option>
+                                    <option>S</option>
+                                    <option>M</option>
+                                    <option>L</option>
+                                    <option>XL</option>
+                                    <option>XXL</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <!-- Souvenir Beanie -->
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="item" value="beanie" id="beanie" />
+                            </td>
+                            <td>
+                                <label for="beanie">Beanie ($5.99)</label>
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <!-- Event Tickets -->
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="item" value="ticket1" id="ticket1" />
+                            </td>
+                            <td>
+                                <label for="ticket1">Jazz Concert Ticket, 3/7 @ 8PM ($15 each)</label>
+                            </td>
+                            <td>
+                                <label for="quantity1">Quantity:</label>
+                                <input type="text" name="quantity" value="0" id="quantity1" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="item" value="ticket2" id="ticket2" />
+                            </td>
+                            <td>
+                                <label for="ticket2">Stars & Stripes Sing-Along Ticket, 3/30 @ 4PM ($5 each)</label>
+                            </td>
+                            <td>
+                                <label for="quantity2">Quantity:</label>
+                                <input type="text" name="quantity" value="0" id="quantity2" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="item" value="ticket3" id="ticket3" />
+                            </td>
+                            <td>
+                                <label for="ticket3">Rock & Roll Concert Ticket, 4/21 @ 1PM ($10 each)</label>
+                            </td>
+                            <td>
+                                <label for="quantity3">Quantity:</label>
+                                <input type="text" name="quantity" value="0" id="quantity3" />
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Select Payment Method -->
+                    <p>Please select a payment method:</p>
+                    <table class="order_form_content" border="0" cellpadding="5px" cellspacing="0">
+                        <tr>
+                            <td>
+                                <input type="radio" name="payment_method" value="credit" id="credit" />
+                                <label for="credit">Credit Card</label> 
+                            </td>
+                            <td>
+                                <input type="radio" name="payment_method" value="debit" id="debit"/> 
+                                <label for="debit">Debit Card</label>
+                            </td>
+                            <td>
+                                <input type="radio" name="payment_method" value="paypal" id="paypal" />
+                                <label for="paypal">PayPal</label>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Submit Button -->
+                    <input type="submit" value="Submit and Proceed to Payment Page" />
+                    <br />
+
+                    <p><em>Note: This submit button is not doing anything useful in its current state.</em></p>
+                </form>
             </div>
             <div class="white"></div>
         </div>
