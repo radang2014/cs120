@@ -12,6 +12,9 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
         <!-- Import external stylesheet -->
         <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+        <!-- Internal Styling -->
+        <style type="text/css"></style>
     </head>
     <body>
         <!-- Title -->
@@ -77,18 +80,71 @@
         </div>
 
         <!-- Table of Upcoming Events -->
-        <h3>Scheduled Events</h3>
-        <p>
-            For ticketed events, please purchase tickets at <a href="store.html">our store</a>.
-        </p>
-        <table id="upcoming">
-            <tr>
-                <th>Event</th>
-                <th>Location</th>
-                <th>Date and Time</th>
-                <th>Admission</th>
-            </tr>
-        </table>
+        <div class="white_stripe">
+            <div class="white_stripe_inner">
+                <h3>Scheduled Events</h3>
+                <p class="centered">
+                    We look forward to seeing you at one of our upcoming events!
+                </p>
+                <p class="centered">
+                    For ticketed events, please purchase tickets at <a href="store.html">our store</a>.
+                </p>
+                <table border="1" cellpadding="4" cellspacing="2" id="scheduled">
+                    <tr>
+                        <th>Event</th>
+                        <th>Location</th>
+                        <th>Date and Time</th>
+                        <th>Admission</th>
+                    </tr>
+                    <tr>
+                        <td>Outdoor Concert</td>
+                        <td>
+                            <a href="https://www.boston.gov/parks/boston-common" target="_blank">Boston Common</a>, Boston, MA
+                        </td>
+                        <td>Saturday, February 24th: 2PM-3PM</td>
+                        <td>Free!</td>
+                    </tr>
+                    <tr>
+                        <td>Jazz Concert</td>
+                        <td>
+                            <a href="https://pittsburghsymphony.org/venues/heinz-hall" target="_blank">Heinz Hall</a>, Pittsburgh, PA
+                        </td>
+                        <td>Thursday, March 7th: 8PM-10:30PM</td>
+                        <td>$15 per person</td>
+                    </tr>
+                    <tr>
+                        <td>Stars & Stripes Sing-Along</td>
+                        <td>
+                            <a href="https://conferences.tufts.edu/space-selection-medford/cohen" target="_blank">Tufts Cohen Auditorium</a>, Medford, MA
+                        </td>
+                        <td>Saturday, March 30th: 4PM-5:30PM</td>
+                        <td>
+                            $5 per person <br />
+                            free for Tufts students
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Rock & Roll Concert</td>
+                        <td>
+                            <a href="https://www.nps.gov/bost/learn/historyculture/fh.htm" target="_blank">Faneuil Hall</a>, Boston, MA
+                        </td>
+                        <td>Sunday, April 21st: 1PM-2:30PM</td>
+                        <td>
+                            $10 per person
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Memorial Day Concert</td>
+                        <td>
+                            <a href="https://www.boston.gov/parks/boston-common" target="_blank">Boston Common</a>, Boston, MA
+                        </td>
+                        <td>Saturday, May 25th: 2PM-3PM</td>
+                        <td>Free!</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="white"></div>
+        </div>
 
         <!-- Footer-->
         <div id="footer_padding"></div>

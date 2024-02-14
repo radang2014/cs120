@@ -48,10 +48,10 @@ div.white {
     right: 0;
 }
 /* Add small amount of "breathing room" between text/elements on a stripe and the stripe border */
-div.red_stripe h3,p,ul,ol,img {
+div.red_stripe h3,p,ul,ol,img,table {
     margin: 10px;
 }
-div.white_stripe h3,p,ul,ol,img {
+div.white_stripe h3,p,ul,ol,img,table {
     margin: 10px;
 }
 div#top_stripe {
@@ -62,7 +62,7 @@ div#top_stripe {
     width: inherit; /* inherit both width and max-width from page body */
     max-width: inherit;
     display: flex;
-    z-index: 10;
+    z-index: 10; /* ensure top stripe is in front of any other elements */
 }
 div.container { /* for div blocks meant to be a "container" for other div blocks */
     display: flex;
@@ -77,7 +77,7 @@ div.red_stripe_inner { /* for div blocks inside a red stripe containing a star b
 }
 div.white_stripe_inner { /* for div blocks inside a white stripe containing a white background to the right */
     display: block;
-    margin-right: 15%;
+    margin-right: 15%; /* end this block to the left of the block containing the empty white background */
     width: 85%;
 }
 div#header_padding { /* to pad space between the page header and content */
@@ -96,7 +96,7 @@ div#footer {
     width: inherit; /* inherit both width and max-width from page body */
     max-width: inherit;
     display: flex;
-    z-index: 10;
+    z-index: 10; /* ensure footer is in front of any other elements */
 }
 div.footer_elem {
     width: 50%;
@@ -162,6 +162,9 @@ h1,.title {
 h3 {
     text-align: center;
     font-size: 20px;
+}
+p.centered {
+    text-align: center;
 }
 ul {
     list-style-type: "\2606"; /* set bullet point to star symbol */
