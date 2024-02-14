@@ -80,11 +80,11 @@ div.white_stripe_inner { /* for div blocks inside a white stripe containing a wh
     margin-right: 15%; /* end this block to the left of the block containing the empty white background */
     width: 85%;
 }
-div#header_padding { /* to pad space between the page header and content */
+div#header_padding { /* to pad space occupied by fixed page header */
     width: 100%;
     height: 150px;
 }
-div#footer_padding { /* to pad space between content and page footer */
+div#footer_padding { /* to pad space occupied by fixed page footer */
     width: 100%;
     height: 20px;
 }
