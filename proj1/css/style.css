@@ -48,10 +48,10 @@ div.white {
     right: 0;
 }
 /* Add small amount of "breathing room" between text/elements on a stripe and the stripe border */
-div.red_stripe h3,p,ul,ol,img,table {
+div.red_stripe h3,p,ul,ol,img,table,input {
     margin: 10px;
 }
-div.white_stripe h3,p,ul,ol,img,table {
+div.white_stripe h3,p,ul,ol,img,table,input {
     margin: 10px;
 }
 div#top_stripe {

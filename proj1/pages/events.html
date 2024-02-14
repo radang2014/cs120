@@ -25,6 +25,23 @@
                     font-size: 12px;
                 }
             }
+
+            /* Alternate color schemes on table rows */
+            table#scheduled tr:nth-child(odd) {
+                background-color: #B31942;
+                color: white; /* white text */
+            }
+            table#scheduled tr:nth-child(even) {
+                background-color: #0A3161;
+                color: white; /* black text */
+            }
+            /* Change link color lighter on table */
+            table#scheduled a:link {
+                color: yellow
+            }
+            table#scheduled a:visited {
+                color: greenyellow;
+            }
         </style>
     </head>
     <body>
