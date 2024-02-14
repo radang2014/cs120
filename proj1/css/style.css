@@ -172,6 +172,13 @@ ul {
 ul li {
     padding-left: 10px; /* add a little space between bullet point and text */
 }
+/* Change link to lighter color on dark backgrounds */
+a.light:link {
+    color: yellow
+}
+a.light:visited {
+    color: greenyellow;
+}
 
 /* Adjust fonts and fixed elements for smaller screen sizes */
 @media (max-width: 945px) { /* screen size smaller than max screen width */
