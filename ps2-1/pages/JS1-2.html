@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Problem Set 2-1 Problem 2</title>
+        <meta http-equiv="description" content="HTML Template" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- CSS -->
+        <style type="text/css"></style>
+    </head>
+    <body>
+        <h1>Randy Dang</h1>
+        <h2>Problem Set 2-1</h2>
+        <h3>Problem 2</h3>
+
+        <script>
+            /* Fahrenheit to Celsius */
+            temp_f = prompt("Please enter a temperature in Fahrenheit. This temperature should be a numerical, decimal value.");
+            temp_f = parseFloat(temp_f);
+            if (isNaN(temp_f)) {
+                alert("You did not enter a numerical, decimal value.");
+            } else {
+                temp_c = (temp_f - 32) * 5 / 9;
+                alert("The equivalent temperature in Celsius is " + temp_c + ".")
+            }
+
+            /* Celsius to Fahrenheit */
+            temp_c = prompt("Please enter a temperature in Celsius. This temperature should be a numerical, decimal value.");
+            temp_c = parseFloat(temp_c);
+            if (isNaN(temp_c)) {
+                alert("You did not enter a numerical, decimal value.");
+            } else {
+                temp_f = temp_c * (9 / 5) + 32;
+                alert("The equivalent temperature in Fahrenheit is " + temp_f + ".");
+            }
+        </script>
+    </body>
+</html>

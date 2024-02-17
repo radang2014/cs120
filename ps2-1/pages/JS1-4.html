@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Problem Set 2-1 Problem 4</title>
+        <meta http-equiv="description" content="HTML Template" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- CSS -->
+        <style type="text/css"></style>
+    </head>
+    <body>
+        <h1>Randy Dang</h1>
+        <h2>Problem Set 2-1</h2>
+        <h3>Problem 4</h3>
+
+        <script>
+            /* 
+             * I am assuming that we are meant to include all numbers in the 
+             * *inclusive* range, and that the sum is meant to include *all* 
+             * numbers in the range, not just the odd ones 
+             */
+            
+            /* Prompt for endpoints of range */
+            lower = prompt("On this page, I will ask you for two numbers that will represent a range. " + 
+                           "Please enter an integer for the lower number of the range.");
+            higher = prompt("Please enter an integer for the higher number of the range.");
+            lower = parseInt(lower);
+            higher = parseInt(higher);
+
+            /* Error checking */
+            if (isNaN(lower) || isNaN(higher)) {
+                document.write("At least one of the numbers you entered was not an integer.");
+            } else if (lower > higher) {
+                document.write("The acclaimed lower number of your range was greater than the acclaimed higher number.")
+            } else {
+                /* Compute and print necessary info */
+                document.write("The range you selected was from " + lower + " to " + higher + ".");
+                document.write("<br />");
+
+                odd_nums = [];
+                sum = 0;
+                for (i = lower; i <= higher; i++) {
+                    if (i % 2 != 0) { // if number is odd
+                                      // use != 0 instead of == 1 to account for negative numbers
+                        odd_nums.push(i);
+                    }
+                    sum += i;
+                }
+
+                document.write("The odd numbers in your range are: " + odd_nums.join(", ") + ".");
+                document.write("<br />");
+                document.write("The sum of all numbers in your range is: " + sum + ".");
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Problem Set 2-1 Problem 3</title>
+        <meta http-equiv="description" content="HTML Template" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- CSS -->
+        <style type="text/css"></style>
+    </head>
+    <body>
+        <h1>Randy Dang</h1>
+        <h2>Problem Set 2-1</h2>
+        <h3>Problem 3</h3>
+
+        <script>
+            /* Ask for two numbers */
+            num1 = prompt("Please enter a number.");
+            num2 = prompt("Please enter another number.");
+            num1 = parseFloat(num1);
+            num2 = parseFloat(num2);
+
+            /* Check validity of numbers */
+            if (isNaN(num1) && isNaN(num2)) {
+                document.write("You did not enter a numerical value for either number.");
+            } else if (isNaN(num1)) {
+                document.write("You did not enter a numerical value for your first number.");
+            } else if (isNaN(num2)) {
+                document.write("You did not enter a numerical value for your second number.");
+            } else {
+                /* Determine numbers in sorted order */
+                if (num1 <= num2) {
+                    smaller_num = num1;
+                    larger_num = num2;
+                } else {
+                    smaller_num = num2;
+                    larger_num = num1;
+                }
+
+                /* Display numbers in sorted order */
+                document.write("Your entered numbers in sorted order are: " + smaller_num + ", " + larger_num + ".");
+            }
+        </script>
+    </body>
+</html>

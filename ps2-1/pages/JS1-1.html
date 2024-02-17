@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Problem Set 2-1 Problem 1</title>
+        <meta http-equiv="description" content="HTML Template" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- CSS -->
+        <style type="text/css"></style>
+    </head>
+    <body>
+        <h1>Randy Dang</h1>
+        <h2>Problem Set 2-1</h2>
+        <h3>Problem 1</h3>
+
+        <script>
+            /* Ask for first and last name */
+            first_name = prompt("What is your first name?");
+            last_name = prompt("What is your last name?");
+            /* Alert user of their name */
+            alert("Your name is " + first_name + " " + last_name + ".");
+
+            /* Ask for number of children and display result on page */
+            num_children = prompt("How many children do you have? Please enter a numerical value.");
+            num_children = parseInt(num_children)
+            if (isNaN(num_children)) {
+                document.write("You did not provide a numerical value for your number of children.");
+            } else if (num_children == 0) {
+                document.write("You have no children.");
+            } else if (num_children == 1) {
+                document.write("You have 1 child.");
+            } else {
+                document.write("You have " + num_children + " children.")
+            }
+        </script>
+    </body>
+</html>
