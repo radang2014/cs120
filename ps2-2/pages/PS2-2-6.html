@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Problem Set 2-2 Problem 6 (Extra Credit)</title>
+        <meta http-equiv="description" content="HTML Template" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- CSS -->
+        <style type="text/css">
+            /* Add border to div */
+            div#selected_states {
+                border: 1px solid black;
+                width: 200px;
+                height: auto;
+                display: inline-block;
+            }
+            .button {
+                display: inline-block;
+                width: 100px;
+                height: 25px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Randy Dang</h1>
+        <h2>Problem Set 2-2</h2>
+        <h3>Problem 6 (Extra Credit)</h3>
+
+        <select id="states" size="5"></select>
+        <input type="button" class="button" value="Add State" onclick="add_state()" />
+
+        <br />
+
+        <div id="selected_states"><ol id="selected_states_list">&nbsp;</ol></div>
+        <input type="button" class="button" value="Clear States" onclick="clear_states()" />
+
+        <script>
+            window.onload = function () {
+                // Initialize states list to include all states 
+                // Credit to the author of the "Fifty Nifty" song for providing a tune that allowed me to just write all the states 
+                // in alphabetical order from memory without needing to look anything up
+                states = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
+                          "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana",
+                          "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", 
+                          "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", 
+                          "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
+                          "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas",
+                          "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
+                available_states = [...states]; // deep copy of `states`; only holds the states available in "select"
+                
+                render_available_states();
+            }
+
+            // Updates "select" element, containing available states to select, to reflect the states in the `available_states` array
+            function render_available_states() {
+                is_first_element = true; // keeps track of if it's the first element, important for logic surrounding selected default value
+                document.getElementById("states").innerHTML = available_states.map(function (state) {
+                    // Create "option" for a given state
+                    result = "<option" + (is_first_element ? " selected" : "") + ">" + state + "</option>";
+
+                    is_first_element = false;
+                    return result;
+                }).join("");
+            }
+
+            // Adds user selected state to the `selected_states` div 
+            function add_state() {
+                // Determine which state the user wished to add 
+                states_list = document.getElementById("states");
+                selected_idx = states_list.selectedIndex;
+                selected_state = states_list.options[selected_idx].value; 
+
+                // Add selected state to numbered list in div 
+                selected_states = document.getElementById("selected_states_list");
+                selected_states.innerHTML += "<li>" + selected_state + "</li>";
+
+                // Remove user selected state from available states to select 
+                available_states.splice(selected_idx, 1);
+                render_available_states(); // update select list to reflect this removal 
+            }
+
+            function clear_states() {
+                document.getElementById("selected_states_list").innerHTML = "&nbsp;";
+
+                // Restore select list to include all states 
+                available_states = [...states];
+                render_available_states();
+            }
+        </script>
+    </body>
+</html>

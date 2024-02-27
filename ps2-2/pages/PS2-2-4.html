@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Problem Set 2-2 Problem 4</title>
+        <meta http-equiv="description" content="HTML Template" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- CSS -->
+        <style type="text/css"></style>
+    </head>
+    <body>
+        <h1>Randy Dang</h1>
+        <h2>Problem Set 2-2</h2>
+        <h3>Problem 4</h3>
+
+        <form method="get" action="#">
+            Name: <input type="text" id="name" />
+            <br /> <br />
+            <input type="button" id="hellobtn" value="Hello" />
+            <input type="button" id="goodbyebtn" value="Good Bye" />
+            <input type="button" id="greetingsbtn" value="Greetings" />
+        </form>
+
+        <script>
+            function speak() {
+                // Get text of button just clicked (referred to by `this`)
+                prefix = document.getElementById(this.id).value; 
+
+                alert(prefix + " " + document.getElementById("name").value);
+            }
+
+            window.onload = function () {
+                // Get the three buttons on this form 
+                button_ids = ["hellobtn", "goodbyebtn", "greetingsbtn"];
+                buttons = button_ids.map((button_id) => document.getElementById(button_id));
+
+                // Connect each button to the "speak" event 
+                for (button of buttons) {
+                    button.onclick = speak;
+                }
+            }
+        </script>
+    </body>
+</html>

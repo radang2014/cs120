@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Problem Set 2-2 Problem 5</title>
+        <meta http-equiv="description" content="HTML Template" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- CSS -->
+        <style type="text/css">
+            /* Add border to div */
+            div#selected_states {
+                border: 1px solid black;
+                width: 200px;
+                height: auto;
+                display: inline-block;
+            }
+            .button {
+                display: inline-block;
+                width: 100px;
+                height: 25px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Randy Dang</h1>
+        <h2>Problem Set 2-2</h2>
+        <h3>Problem 5</h3>
+
+        <select id="states" size="5"></select>
+        <input type="button" class="button" value="Add State" onclick="add_state()" />
+
+        <br />
+
+        <div id="selected_states">&nbsp;</div>
+        <input type="button" class="button" value="Clear States" onclick="clear_states()" />
+
+        <script>
+            window.onload = function () {
+                // Initialize states list to include all states 
+                // Credit to the author of the "Fifty Nifty" song for providing a tune that allowed me to just write all the states 
+                // in alphabetical order from memory without needing to look anything up
+                states = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
+                          "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana",
+                          "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", 
+                          "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", 
+                          "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
+                          "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas",
+                          "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
+                
+                is_first_element = true; // keeps track of if it's the first element, important for logic surrounding selected default value
+                document.getElementById("states").innerHTML = states.map(function (state) {
+                    result = "<option" + (is_first_element ? " selected" : "") + ">" + state + "</option>";
+                    is_first_element = false;
+                    return result;
+                }).join("");
+            }
+
+            // Adds user selected state to the `selected_states` div 
+            function add_state() {
+                // Determine which state the user wished to add 
+                states_list = document.getElementById("states");
+                selected_idx = states_list.selectedIndex;
+                selected_state = states_list.options[selected_idx].value; 
+
+                // Add selected state to div 
+                selected_states = document.getElementById("selected_states");
+                if (selected_states.innerHTML == "&nbsp;") { // don't include space character if initially empty 
+                    selected_states.innerHTML = selected_state;
+                } else { // if not initially empty, append to existing list of states 
+                    selected_states.innerHTML += "<br />" + selected_state;
+                }
+            }
+
+            function clear_states() {
+                document.getElementById("selected_states").innerHTML = "&nbsp;";
+            }
+        </script>
+    </body>
+</html>

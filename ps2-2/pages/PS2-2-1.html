@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Problem Set 2-2 Problem 1</title>
+        <meta http-equiv="description" content="HTML Template" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- CSS -->
+        <style type="text/css"></style>
+    </head>
+    <body>
+        <h1>Randy Dang</h1>
+        <h2>Problem Set 2-2</h2>
+        <h3>Problem 1</h3>
+
+        <script>
+            /* Prompt user for sentence */
+            sentence = prompt("Please enter a sentence:");
+            
+            /* Get number of words in the sentence */
+            words = sentence.split(" ");
+            words = words.filter((word) => word != ""); /* filter out "blank" words */
+            num_words = words.length;
+
+            /* Display number of words */
+            document.write("Your sentence had " + num_words + 
+                (num_words == 1 ? " word." : " words."));
+        </script>
+    </body>
+</html>

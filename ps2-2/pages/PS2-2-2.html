@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Problem Set 2-2 Problem 2</title>
+        <meta http-equiv="description" content="HTML Template" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- CSS -->
+        <style type="text/css"></style>
+    </head>
+    <body>
+        <h1>Randy Dang</h1>
+        <h2>Problem Set 2-2</h2>
+        <h3>Problem 2</h3>
+
+        <ol id="names"></ol>
+
+        <script>
+            /* Hard coded string; example taken from problem directions */ 
+            names_str = "Pat, Chris, Marlon, Ferncroft, Assunta";
+
+            names = names_str.split(", ");
+
+            /* Get HTML for each name */
+            names_html = names.map((name) => "<li>" + name + "</li>");
+            
+            /* Write list of names to document */
+            document.getElementById("names").innerHTML = names_html.join("");
+        </script>
+    </body>
+</html>
