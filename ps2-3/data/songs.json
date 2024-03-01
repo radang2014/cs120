@@ -1,0 +1,93 @@
+[
+    {
+        "title" : "Ocean",
+        "artist" : "June Music and Ege Evos",
+        "year" : 2021,
+        "genre" : [
+            "Pop"
+        ]
+    },
+    {
+        "title" : "Fly Away",
+        "artist" : "Ege Evos and AD",
+        "year" : 2023,
+        "genre" : [
+            "Pop"
+        ]
+    },
+    {
+        "title" : "You Will Be Found",
+        "artist" : "Ben Platt",
+        "year" : 2017,
+        "genre" : [
+            "Film"
+        ]
+    },
+    {
+        "title" : "Pure Imagination",
+        "artist" : "Gene Wilder",
+        "year" : 1971,
+        "genre" : [
+            "Film",
+            "Soundtrack"
+        ]
+    },
+    {
+        "title" : "The Imperial March",
+        "artist" : "John Williams",
+        "year" : 1980,
+        "genre" : [
+            "Film",
+            "Soundtrack"
+        ]
+    },
+    {
+        "title" : "Bohemian Rhapsody",
+        "artist" : "Queen",
+        "year" : 1975,
+        "genre" : [
+            "Rock",
+            "Pop"
+        ]
+    },
+    {
+        "title" : "Don't Stop Believin'",
+        "artist" : "Journey",
+        "year" : 1981,
+        "genre" : [
+            "Rock"
+        ]
+    },
+    {
+        "title" : "The Star Spangled Banner",
+        "artist" : "Francis Scott Key",
+        "year" : 1814,
+        "genre" : [
+            "Patriotic"
+        ]
+    },
+    {
+        "title" : "America the Beautiful",
+        "artist" : "Katharine Lee Bates",
+        "year" : 1895,
+        "genre" : [
+            "Patriotic"
+        ]
+    },
+    {
+        "title" : "Silent Night",
+        "artist" : "Joseph Mohr",
+        "year" : 1818,
+        "genre" : [
+            "Carol"
+        ]
+    },
+    {
+        "title" : "We Three Kings",
+        "artist" : "John Henry Hopkins Jr.",
+        "year" : 1857,
+        "genre" : [
+            "Carol"
+        ]
+    }
+]

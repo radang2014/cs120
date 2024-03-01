@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Problem Set 2-3 Part 2</title>
+        <meta http-equiv="description" content="HTML Template" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- Import JQuery -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+        <!-- CSS -->
+        <style type="text/css"></style>
+    </head>
+    <body>
+        <h1>Randy Dang</h1>
+        <h2>Problem Set 2-3</h2>
+        <h3>Part 2</h3>
+
+        <div id="songdata"></div>
+
+        <script>
+            $.get("../data/songs.json", function (songs) {
+                /* At this point, callback parameter `songs` already stores the array of songs */
+
+                songdata = document.getElementById("songdata");
+                for (song of songs) { /* Iterate through array of songs and display them one by one */
+                    songdata.innerHTML += "<strong>" + song.title + "</strong>" + "<br />";
+                    songdata.innerHTML += "Artist: " + song.artist + "<br />";
+                    songdata.innerHTML += "Genre: " + song.genre.join(", ") + "<br />";
+                    songdata.innerHTML += "Released " + song.year + "<br />";
+                    songdata.innerHTML += "<br />"; /* break between songs */
+                }
+            });
+        </script>
+    </body>
+</html>

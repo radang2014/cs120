@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Problem Set 2-3 Part 3</title>
+        <meta http-equiv="description" content="HTML Template" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- Import JQuery -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+        <!-- CSS -->
+        <style type="text/css">
+            #songdata {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Randy Dang</h1>
+        <h2>Problem Set 2-3</h2>
+        <h3>Part 3</h3>
+
+        <form method="get" action="#">
+            <select id="genrelist"></select>
+            <input type="button" value="Filter" id="filter" />
+        </form>
+
+        <br /> <br />
+
+        <div id="songdata"></div>
+
+        <script>
+            /* 
+             * Takes in `songs` object with the format in `songs.json` and returns an equivalent
+             * object that keys songs by genre.
+             * 
+             * In other words, the returned object has genres as keys and lists of songs with 
+             * that genre as values.
+             */
+            function get_songs_by_genre(songs) {
+                result = {}; // store object to return 
+
+                for (song of songs) { // iterate through each song 
+                    for (genre of song.genre) { // iterate through the genres of the current song 
+                        if (!(genre in result)) {
+                            result[genre] = []; // initialize empty array of genre does not exist yet
+                        }
+
+                        result[genre].push(song.title);
+                    }
+                }
+
+                return result;
+            }
+
+            /* 
+             * Updates `songdata` div to contain the titles of the songs in the selected genre.
+             * Assumes `songs_by_genre` has been set to the result of `get_songs_by_genre`
+             */
+            function set_songdata() {
+                selected_genre = $("#genrelist option:selected").text();
+                $("#songdata").html("Songs with genre: " + selected_genre + "<br />" + 
+                                    songs_by_genre[selected_genre].join("<br />"));
+            }
+
+            /* Reads from `songs.json` and sets appropriate events on the page */
+            $.get("../data/songs.json", function (songs) {
+                songs_by_genre = get_songs_by_genre(songs);
+
+                /* Make "select" list based on genres */ 
+                genres = Object.keys(songs_by_genre);
+                options = genres.map((genre) => "<option>" + genre + "</option>");
+                $("#genrelist").html(options.join(""));
+
+                $("#filter").click(set_songdata);
+            });
+        </script>
+    </body>
+</html>
