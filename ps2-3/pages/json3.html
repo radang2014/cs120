@@ -63,7 +63,7 @@
              */
             function set_songdata() {
                 selected_genre = $("#genrelist option:selected").text();
-                $("#songdata").html("Songs with genre: " + selected_genre + "<br />" + 
+                $("#songdata").html("<strong>Songs with genre: " + selected_genre + "</strong><br />" + 
                                     songs_by_genre[selected_genre].join("<br />"));
             }
 
