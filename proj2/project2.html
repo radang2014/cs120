@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wordle</title>
+        <meta http-equiv="description" content="Wordle" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+
+        <!-- Import CSS -->
+        <link rel="stylesheet" href="css/style.css" type="text/css" >
+
+        <!-- Import JQuery -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    </head>
+    <body>
+        <h1>Welcome to Wordle!</h1>
+
+        <!-- Wordle Tiles Here (initialized by JavaScript) -->
+        <div id="tiles"></div>
+
+        <br />
+
+        <!-- Add input fields for inputting guesses -->
+        <span id="guesstext">What is your guess?</span>
+        <input type="text" />
+        <br /> <br />
+        <input type="button" id="checkbutton" value="Check my Guess" />
+
+        <script>
+            /* Writes wordle tiles to the page */
+            function init_tiles() {
+                NUM_LETTERS = 5;
+                MAX_NUM_TRIES = 6;
+
+                /* Write wordle tiles */
+                tiles_html = "";
+                for (i = 0; i < MAX_NUM_TRIES; i++) {
+                    /* Write one row of wordle tiles, i.e. for one guess */ 
+                    for (j = 0; j < NUM_LETTERS; j++) {
+                        tiles_html += "<div class=\"tile\" id=\"letter" + i + "_" + i + "\">&nbsp;</div>";
+                    }
+                    tiles_html += "<br />";
+                }
+                $("#tiles").html(tiles_html);
+            }
+
+            window.onload = function() {
+                init_tiles();
+            }
+        </script>
+    </body>
+</html>
