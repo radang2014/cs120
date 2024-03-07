@@ -9,6 +9,7 @@
         <!-- Import Google Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=DM+Serif+Display">
 
         <!-- Import CSS -->
         <link rel="stylesheet" href="css/style.css" type="text/css" >
@@ -26,9 +27,10 @@
 
         <!-- Add input fields for inputting guesses -->
         <span id="guesstext">What is your guess?</span>
-        <input type="text" />
+        <input type="text" id="guess" />
         <br /> <br />
-        <input type="button" id="checkbutton" value="Check my Guess" />
+        <input type="button" class="button" id="checkbutton" value="Check my Guess" />
+        <input type="button" class="button" id="restartbutton" value="New Game" />
 
         <script>
             /* "Dictionary" of 5 letter words */ 
@@ -37,26 +39,107 @@
                      "cream", "lemur", "fired", "paper", "towel", "array", "alpha", "omega", "gamma", "delta",
                      "kappa", "three", "seven", "eight", "fault", "gooey", "valor", "nonce", "tasty", "woody",
                      "swamp", "swoop", "robin", "close", "timed", "start", "runny", "stale", "llama", "zebra"];
+            
+            NUM_LETTERS = 5; /* number of letters in a word */
+            MAX_NUM_TRIES = 6; /* maximum number of tries a user has to guess in the game */
+            
+            correct_word = null; /* stores the correct word at the current point in time */
+            next_empty_row = 0; /* stores index of top row of grid that is empty, i.e. where their next guess would go */
+
+            won = false; /* stores whether player has won the game */ 
+            lost = false; /* stores whether player has lost the game */
 
             /* Writes wordle tiles to the page */
-            function init_tiles() {
-                NUM_LETTERS = 5;
-                MAX_NUM_TRIES = 6;
-
+            function init_game() {
                 /* Write wordle tiles */
                 tiles_html = "";
                 for (i = 0; i < MAX_NUM_TRIES; i++) {
                     /* Write one row of wordle tiles, i.e. for one guess */ 
                     for (j = 0; j < NUM_LETTERS; j++) {
-                        tiles_html += "<div class=\"tile\" id=\"letter" + i + "_" + i + "\">&nbsp;</div>";
+                        tiles_html += "<div class=\"tile\">" + 
+                                      "<span class=\"tile_content\" id=\"letter" + i + "_" + j + "\">&nbsp;</span>" + 
+                                      "</div>";
                     }
                     tiles_html += "<br />";
                 }
                 $("#tiles").html(tiles_html);
+
+                /* Randomly select correct word */ 
+                correct_word = words[Math.floor(Math.random() * words.length)];
+                console.log("The correct answer is: " + correct_word);
+
+                /* Reset global state to be reflective of beginning of game */
+                next_empty_row = 0;
+                won = false;
+                lost = false;
+                $("#restartbutton").hide();
+            }
+
+            /* Checks inputted word; event handler for answer checker button */
+            function check_word() {
+                guess = $("#guess").val();
+
+                /* Ensure that the user hasn't already won or lost */ 
+                if (won || lost) {
+                    alert("This game has already ended. Please click \"New Game\" to start a new game.");
+                    return;
+                }
+                
+                /* Ensure input is valid, i.e. is a 5-letter alphabetical string */ 
+                let is_word = (guess) => /^[a-zA-Z]+$/.test(guess);
+                if (guess.length != NUM_LETTERS || !is_word(guess)) {
+                    alert("You did not enter a " + NUM_LETTERS + "-letter word for your guess. Note that " +
+                          "words can only contain alphabetical letters. Please try again.");
+                    return;
+                }
+
+                /* Standardize all words to have lowercase letters */ 
+                correct_word = correct_word.toLowerCase();
+                guess = guess.toLowerCase();
+
+                /* Array of letters that are in the word and the guess */
+                correct_letters = correct_word.split("");
+                guess_letters = guess.split("");
+
+                /* JavaScript Object mapping each letter in the word to the number of times that letter appears in the word */
+                correct_letter_counts = {};
+                correct_letters.forEach((letter) => {
+                    /* Populate letter_counts object */
+                    if (letter in correct_letter_counts) {
+                        correct_letter_counts[letter]++;
+                    } else {
+                        correct_letter_counts[letter] = 1;
+                    }
+                });
+
+                /* Update guessing board based on inputted guess */
+                guess_letters.forEach((letter, idx) => {
+                    $("#letter" + next_empty_row + "_" + idx).text(letter.toUpperCase());
+                });
+
+                /* Update index of empty row so will show up in next row at next guess */
+                next_empty_row++;
+
+                /* Decide if user won or lost this round */
+                won = guess == correct_word;
+                lost = next_empty_row == MAX_NUM_TRIES;
+
+                /* If game has ended, alert user of status and display option to start a new game */
+                if (won || lost) {
+                    alert(won ? "Congratulations! You won!"
+                              : "Unfortunately, you have lost. Better luck next time!");
+                    $("#restartbutton").show();
+                }
             }
 
             window.onload = function() {
-                init_tiles();
+                init_game();
+
+                /* Set input checker to be called when the guess checking button is clicked */
+                $("#checkbutton").on("click", check_word);
+
+                /* Set game re-initialization when restart button is clicked */ 
+                $("#restartbutton").on("click", init_game);
             }
         </script>
     </body>

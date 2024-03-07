@@ -12,25 +12,37 @@ h1 {
 
 /* Styling for tile of wordle grid */
 .tile {
-    display: inline-block;
+    display: inline-flex;
     border: 1px solid black;
     max-width: 55px;
     max-height: 45px;
     width: 20%;
     aspect-ratio: 55/45;
     margin: 1px;
+    justify-content: center; /* center text horizontally */
+    align-items: center; /* center text vertically */
 }
 
-#checkbutton {
+.tile_content {
+    font-family: 'DM Serif Display', serif;
+    font-size: 35px;
+}
+
+.button {
     width: 150px;
     height: 45px;
     background-color: white;
+    margin: 5px;
 }
 /* Make button light up if mouse over it */
-#checkbutton:hover {
-    background-color: purple;
+.button:hover {
+    background-color: brown;
     color: white;
     cursor: pointer;
+}
+
+#restartbutton {
+    display: none;
 }
 
 /* Settings for smaller screen widths */
@@ -47,9 +59,13 @@ h1 {
         font-size: 12px;
     }
 
-    #checkbutton {
+    .button {
         width: 150px;
         height: 30px;
         font-size: 12px;
+    }
+
+    .tile_content {
+        font-size: 20px;
     }
 }
