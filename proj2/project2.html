@@ -34,9 +34,14 @@
         <br /> <br />
         <input type="button" class="button" id="checkbutton" value="Check my Guess" />
         <input type="button" class="button" id="restartbutton" value="New Game" />
+        <br /> <br />
+
+        <!-- Used Letter Board -->
+        <h3>Used Letters</h3>
+        <div id="used_letters"></div>
 
         <script>
-            /* "Dictionary" of 5 letter words */ 
+            /* "Dictionary" of 5 letter words. This will ONLY be used if the random word API fails for whatever reason */ 
             words = ["water", "coral", "watch", "class", "state", "trash", "study", "spoon", "brush", "clock", 
                      "young", "pizza", "enter", "green", "frame", "noted", "going", "bring", "stick", "stone", 
                      "cream", "lemur", "fired", "paper", "towel", "array", "alpha", "omega", "gamma", "delta",
@@ -45,6 +50,11 @@
             
             NUM_LETTERS = 5; /* number of letters in a word */
             MAX_NUM_TRIES = 6; /* maximum number of tries a user has to guess in the game */
+
+            /* Single point of truth for background color settings */ 
+            CORRECT_COLOR = "lightgreen";
+            PARTIALLY_CORRECT_COLOR = "gold";
+            INCORRECT_COLOR = "silver";
             
             correct_word = null; /* stores the correct word at the current point in time */
             next_empty_row = 0; /* stores index of top row of grid that is empty, i.e. where their next guess would go */
@@ -59,7 +69,7 @@
                 for (i = 0; i < MAX_NUM_TRIES; i++) {
                     /* Write one row of wordle tiles, i.e. for one guess */ 
                     for (j = 0; j < NUM_LETTERS; j++) {
-                        tiles_html += "<div class=\"tile\">" + 
+                        tiles_html += "<div class=\"tile\" id=\"tile" + i + "_" + j + "\">" + 
                                       "<span class=\"tile_content\" id=\"letter" + i + "_" + j + "\">&nbsp;</span>" + 
                                       "</div>";
                     }
@@ -67,9 +77,29 @@
                 }
                 $("#tiles").html(tiles_html);
 
-                /* Randomly select correct word */ 
-                correct_word = words[Math.floor(Math.random() * words.length)];
-                console.log("The correct answer is: " + correct_word);
+                /* Get 5-letter word from random-word-api, or if this fails, use the hard-coded dictionary */ 
+                let display_correct = () => console.log("The correct answer is: " + correct_word);
+                $.get("https://random-word-api.herokuapp.com/word?length=" + NUM_LETTERS, (word) => {
+                    correct_word = word[0];
+                    display_correct();
+                }).fail(() => {
+                    correct_word = words[Math.floor(Math.random() * words.length)];
+                    display_correct();
+                });
+
+                /* Write used letter board */ 
+                letters_by_row = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
+                used_letters_html = letters_by_row.map((letter_row) => {
+                    letters = letter_row.split("");
+
+                    return letters.map((letter) => {
+                        letter = letter.toUpperCase();
+                        return "<div class=\"tile\" id=\"used_letters_" + letter + "\">" + 
+                               "<span class=\"tile_content\" id=\"used_letters_" + letter + "_inner\">" + letter + "</span>" + 
+                               "</div>";
+                    }).join("");
+                }).join("<br />");
+                $("#used_letters").html(used_letters_html);
 
                 /* Reset global state to be reflective of beginning of game */
                 next_empty_row = 0;
@@ -82,6 +112,12 @@
             function check_word() {
                 guess = $("#guess").val();
 
+                /* Ensure that correct answer has actually loaded */ 
+                if (correct_word == null) {
+                    alert("We don't have the correct answer for the word ready yet. Please try again soon.");
+                    return;
+                }
+
                 /* Ensure that the user hasn't already won or lost */ 
                 if (won || lost) {
                     alert("This game has already ended. Please click \"New Game\" to start a new game.");
@@ -89,6 +125,7 @@
                 }
                 
                 /* Ensure input is valid, i.e. is a 5-letter alphabetical string */ 
+                /* Does NOT check that input is a word in the English language */
                 let is_word = (guess) => /^[a-zA-Z]+$/.test(guess);
                 if (guess.length != NUM_LETTERS || !is_word(guess)) {
                     alert("You did not enter a " + NUM_LETTERS + "-letter word for your guess. Note that " +
@@ -107,7 +144,7 @@
                 /* JavaScript Object mapping each letter in the word to the number of times that letter appears in the word */
                 correct_letter_counts = {};
                 correct_letters.forEach((letter) => {
-                    /* Populate letter_counts object */
+                    /* Populate correct_letter_counts object */
                     if (letter in correct_letter_counts) {
                         correct_letter_counts[letter]++;
                     } else {
@@ -117,7 +154,55 @@
 
                 /* Update guessing board based on inputted guess */
                 guess_letters.forEach((letter, idx) => {
-                    $("#letter" + next_empty_row + "_" + idx).text(letter.toUpperCase());
+                    curr_position_suffix = "" + next_empty_row + "_" + idx;
+                    $("#letter" + curr_position_suffix).text(letter.toUpperCase());
+
+                    /* Change background color to green if letter correct and in correct position */ 
+                    if (letter == correct_letters[idx]) {
+                        $("#tile" + curr_position_suffix).css("background-color", CORRECT_COLOR);
+
+                        /* 
+                         * Update counts so there is no collision with correct letters in incorrect positions, which 
+                         * will read from this map in a later pass (collisions may happen in the case of the same 
+                         * letter used twice) 
+                         */ 
+                        correct_letter_counts[letter]--; 
+
+                        /* Error checking, just in case */ 
+                        if (correct_letter_counts[letter] < 0) {
+                            alert("IMPOSSIBLE ERROR: Internal letter counts map has dipped below zero for a letter. " + 
+                                  "This should not be happening; please contact the developer. Aborting.");
+                            return;
+                        }
+                    }
+                });
+
+                /* Update background colors for correct letter in incorrect position, and incorrect letters altogether */ 
+                guess_letters.forEach((letter, idx) => {
+                    curr_position_suffix = "" + next_empty_row + "_" + idx;
+                    curr_tile_position = $("#tile" + curr_position_suffix);
+
+                    /* Check if letter is correct AND it hasn't been previously established to be in the correct position */
+                    correct_letter = letter in correct_letter_counts && correct_letter_counts[letter] > 0;
+                    correct_position = letter == correct_letters[idx];
+                    if (correct_letter && !correct_position) {
+                        curr_tile_position.css("background-color", PARTIALLY_CORRECT_COLOR);
+
+                        /* 
+                         * Update counts so no collision with the same letter used again in the guess if the letter isn't 
+                         * used in the word more than once.
+                         */
+                        correct_letter_counts[letter]--;
+
+                        /* Error checking, just in case */ 
+                        if (correct_letter_counts[letter] < 0) {
+                            alert("IMPOSSIBLE ERROR: Internal letter counts map has dipped below zero for a letter. " + 
+                                  "This should not be happening; please contact the developer. Aborting.");
+                            return;
+                        }
+                    } else if (!correct_position) { /* incorrect letter entirely */
+                        curr_tile_position.css("background-color", INCORRECT_COLOR);
+                    }
                 });
 
                 /* Update index of empty row so will show up in next row at next guess */
@@ -130,7 +215,7 @@
                 /* If game has ended, alert user of status and display option to start a new game */
                 if (won || lost) {
                     alert(won ? "Congratulations! You won!"
-                              : "Unfortunately, you have lost. Better luck next time!");
+                              : ("Unfortunately, you have lost. The word was: " + correct_word.toUpperCase() + ". Better luck next time!"));
                     $("#restartbutton").show();
                 }
             }
@@ -138,8 +223,17 @@
             window.onload = function() {
                 init_game();
 
-                /* Set input checker to be called when the guess checking button is clicked */
+                /* 
+                 * Set input checker to be called when the guess checking button is clicked or 
+                 * the enter key is pressed within guess text box 
+                 */
                 $("#checkbutton").on("click", check_word);
+                $("#guess").keypress((event) => {
+                    ENTERKEY_CODE = 13; /* numerical value used to represent the enter key */
+                    if (event.which == ENTERKEY_CODE) {
+                        check_word();
+                    }
+                });
 
                 /* Set game re-initialization when restart button is clicked */ 
                 $("#restartbutton").on("click", init_game);
