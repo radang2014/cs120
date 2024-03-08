@@ -1,0 +1,12 @@
+The URL to this project is:
+https://radang2014.github.io/cs120/proj2/project2.html
+
+Couple notes:
+ - I used the Heroku random word API to fetch a random 5-letter word for the answer
+ - I did NOT use any API for word validation (as the requirements only stated to do one)
+ - If the API call fails for whatever reason (e.g. Internet connection broke while playing 
+   the game), I have a hard-coded array of words as a back-up 
+ - I have implemented both extra credit features (used letter board and average guesses on device).
+   The average guesses on device does not show up until at least one winning game has been 
+   achieved.
+
