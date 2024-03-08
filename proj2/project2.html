@@ -106,9 +106,8 @@
                     return letters.map((letter) => {
                         letter_states[letter] = LETTER_STATE.BLANK;
 
-                        letter = letter.toUpperCase();
                         return "<div class=\"tile used_letter_tile\" id=\"used_letters_" + letter + "\">" + 
-                               "<span class=\"tile_content\" id=\"used_letters_" + letter + "_inner\">" + letter + "</span>" + 
+                               "<span class=\"tile_content\" id=\"used_letters_" + letter + "_inner\">" + letter.toUpperCase() + "</span>" + 
                                "</div>";
                     }).join("");
                 }).join("<br />");
