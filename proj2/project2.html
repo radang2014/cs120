@@ -62,6 +62,18 @@
             won = false; /* stores whether player has won the game */ 
             lost = false; /* stores whether player has lost the game */
 
+            /*** Functionality for used letter board ***/
+            LETTERS_BY_ROW = ["qwertyuiop", "asdfghjkl", "zxcvbnm"]; /* defines organization of used letter board */
+            letter_states = {}; /* object that maps letters to their "usage state" defined below */
+
+            /* The following enum-like object defines "usage states" of letters in order of increasing precedence. */ 
+            LETTER_STATE = {
+                BLANK : 0, /* has not yet been guessed */ 
+                INCORRECT : 1, /* letter known to not be in the word */ 
+                PARTIALLY_CORRECT : 2, /* letter known to be in the word, position unknown */ 
+                CORRECT : 3 /* letter and position known */ 
+            }
+
             /* Writes wordle tiles to the page */
             function init_game() {
                 /* Write wordle tiles */
@@ -87,12 +99,13 @@
                     display_correct();
                 });
 
-                /* Write used letter board */ 
-                letters_by_row = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
-                used_letters_html = letters_by_row.map((letter_row) => {
+                /* Write used letter board and initialize states */ 
+                used_letters_html = LETTERS_BY_ROW.map((letter_row) => {
                     letters = letter_row.split("");
 
                     return letters.map((letter) => {
+                        letter_states[letter] = LETTER_STATE.BLANK;
+
                         letter = letter.toUpperCase();
                         return "<div class=\"tile\" id=\"used_letters_" + letter + "\">" + 
                                "<span class=\"tile_content\" id=\"used_letters_" + letter + "_inner\">" + letter + "</span>" + 
@@ -106,6 +119,28 @@
                 won = false;
                 lost = false;
                 $("#restartbutton").hide();
+            }
+
+            /* 
+             * Updates used letter board and corresponding state of letter `letter` to 
+             * state `new_state` only if `new_state` has higher precedence than 
+             * current state.
+             */
+            function controlled_update_used_letters(letter, new_state) {
+                curr_state = letter_states[letter]
+                if (new_state > curr_state) {
+                    letter_states[letter] = new_state;
+
+                    used_letter_tile = $("#used_letters_" + letter);
+
+                    if (new_state == LETTER_STATE.INCORRECT) {
+                        used_letter_tile.css("background-color", INCORRECT_COLOR);
+                    } else if (new_state == LETTER_STATE.PARTIALLY_CORRECT) {
+                        used_letter_tile.css("background-color", PARTIALLY_CORRECT_COLOR);
+                    } else if (new_state == LETTER_STATE.CORRECT) {
+                        used_letter_tile.css("background-color", CORRECT_COLOR);
+                    }
+                }
             }
 
             /* Checks inputted word; event handler for answer checker button */
@@ -168,6 +203,9 @@
                          */ 
                         correct_letter_counts[letter]--; 
 
+                        /* Update used letter board and corresponding state */
+                        controlled_update_used_letters(letter, LETTER_STATE.CORRECT);
+
                         /* Error checking, just in case */ 
                         if (correct_letter_counts[letter] < 0) {
                             alert("IMPOSSIBLE ERROR: Internal letter counts map has dipped below zero for a letter. " + 
@@ -194,6 +232,9 @@
                          */
                         correct_letter_counts[letter]--;
 
+                        /* Update used letter board and corresponding state */
+                        controlled_update_used_letters(letter, LETTER_STATE.PARTIALLY_CORRECT);
+
                         /* Error checking, just in case */ 
                         if (correct_letter_counts[letter] < 0) {
                             alert("IMPOSSIBLE ERROR: Internal letter counts map has dipped below zero for a letter. " + 
@@ -202,6 +243,9 @@
                         }
                     } else if (!correct_position) { /* incorrect letter entirely */
                         curr_tile_position.css("background-color", INCORRECT_COLOR);
+
+                        /* Update used letter board and corresponding state */
+                        controlled_update_used_letters(letter, LETTER_STATE.INCORRECT);
                     }
                 });
 

@@ -55,7 +55,7 @@ h1 {
         max-height: 30px;
     }
     .used_letter_tile { /* make used letter tiles narrower on smaller screen widths */
-        max-width: 32px;
+        width: 10%;
     }
 
     #guesstext {
