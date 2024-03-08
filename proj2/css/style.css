@@ -41,7 +41,11 @@ h1 {
     cursor: pointer;
 }
 
+/* Elements that are hidden by default */
 #restartbutton {
+    display: none;
+}
+#avg_num_guesses_text {
     display: none;
 }
 

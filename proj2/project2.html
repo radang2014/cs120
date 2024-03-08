@@ -36,6 +36,14 @@
         <input type="button" class="button" id="restartbutton" value="New Game" />
         <br /> <br />
 
+        <!-- Average Number of Guesses -->
+        <p id="avg_num_guesses_text">
+            You have needed an average of <span id="avg_num_guesses"></span> guesses per winning round on this device.
+        </p>
+        <p id="avg_num_guesses_alt_text">
+            Win at least one game to see the average number of guesses per winning round on this device.
+        </p>
+
         <!-- Used Letter Board -->
         <h3>Used Letters</h3>
         <div id="used_letters"></div>
@@ -142,13 +150,54 @@
                 }
             }
 
+            /* 
+             * Uses cookie items keyed by "total_num_guesses" and "num_rounds" to display the
+             * average number of guesses in each winning round.
+             */
+            function display_avg_guesses() {
+                /* Parse document cookie; goal is to extract `total_num_guesses` and `num_rounds` if present */
+                cookie_elems_list = document.cookie.split("; ");
+                cookie_elems = {};
+                cookie_elems_list.forEach((elem) => {
+                    kvPair = elem.split("=");
+                    cookie_elems[kvPair[0]] = kvPair[1];
+                });
+
+                /* Initialize to 0 if doesn't exist yet, i.e. this is the first winning round */
+                if (!("total_num_guesses" in cookie_elems && "num_rounds" in cookie_elems)) {
+                    cookie_elems["total_num_guesses"] = 0;
+                    cookie_elems["num_rounds"] = 0;
+                } else {
+                    /* If number does exist, it is a string. Convert to integer */ 
+                    cookie_elems["total_num_guesses"] = parseInt(cookie_elems["total_num_guesses"]);
+                    cookie_elems["num_rounds"] = parseInt(cookie_elems["num_rounds"]);
+                }
+
+                /* Add stats from the current game to the total */ 
+                cookie_elems["total_num_guesses"] += next_empty_row;
+                cookie_elems["num_rounds"] += 1;
+
+                /* Display average number of guesses per winning round */ 
+                avg_num_guesses = cookie_elems["total_num_guesses"] / cookie_elems["num_rounds"];
+                $("#avg_num_guesses").text(+avg_num_guesses.toFixed(2)); /* round to two decimal places */
+                $("#avg_num_guesses_text").show();
+                $("#avg_num_guesses_alt_text").hide();
+
+                /* Update cookie with new info */ 
+                let update_cookie = (key, value) => {
+                    document.cookie = key + "=" + value + "; SameSite=None; Secure";
+                }
+                update_cookie("total_num_guesses", cookie_elems["total_num_guesses"]);
+                update_cookie("num_rounds", cookie_elems["num_rounds"]);
+            }
+
             /* Checks inputted word; event handler for answer checker button */
             function check_word() {
                 guess = $("#guess").val();
 
                 /* Ensure that correct answer has actually loaded */ 
                 if (correct_word == null) {
-                    alert("We don't have the correct answer for the word ready yet. Please try again soon.");
+                    alert("Hold your horses! We haven't loaded the answer word yet. Please try again in a few seconds.");
                     return;
                 }
 
@@ -254,6 +303,11 @@
                 /* Decide if user won or lost this round */
                 won = guess == correct_word;
                 lost = next_empty_row == MAX_NUM_TRIES;
+
+                /* If won, use cookie to display average number of guesses per game */ 
+                if (won) {
+                    display_avg_guesses();
+                }
 
                 /* If game has ended, alert user of status and display option to start a new game */
                 if (won || lost) {
