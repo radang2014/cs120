@@ -62,7 +62,7 @@ h1 {
         width: 8%;
     }
 
-    #guesstext {
+    .page_text {
         font-size: 12px;
     }
 
