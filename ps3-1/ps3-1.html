@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Problem Set 3-1</title>
+        <meta http-equiv="description" content="Problem Set 3-1 Solution" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import "Inter" google fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- CSS -->
+        <style type="text/css">
+            body {
+                font-family: "Inter", serif;
+                max-width: 945px;
+            }
+            h1 {
+                text-align: center;
+            }
+            img.screenshot {
+                max-width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <p>
+            Randy Dang <br />
+            CS 120: Web Programming and Engineering <br />
+            March 12, 2024
+        </p>
+        <h1>Problem Set 3-1: SQL</h1>
+
+        <h3>Part 1: Queries</h3>
+
+        <p>
+            <strong>Northwind Database:</strong>
+        </p>
+
+        <ol>
+            <!-- Query 1 -->
+            <li>
+                Display the company name, contact name, and city for all CUSTOMERS.
+
+                <p><em>SQL Statement:</em></p>
+                <p><code>
+                    SELECT CustomerName, ContactName, City <br />
+                    FROM Customers;
+                </code></p>
+
+                <p><em>Results:</em></p>
+                <img class="screenshot" src="images/part1results1.jpg" alt="images/part1results1.jpg" />
+            </li>
+
+            <!-- Query 2 -->
+            <li>
+                Display all information for all German SUPPLIERS
+
+                <p><em>SQL Statement:</em></p>
+                <p><code>
+                    SELECT * <br />
+                    FROM Suppliers <br />
+                    WHERE Country = "Germany";
+                </code></p>
+
+                <p><em>Results:</em></p>
+                <img class="screenshot" src="images/part1results2.jpg" alt="images/part1results2.jpg" />
+            </li>
+
+            <!-- Query 3 -->
+            <li>
+                Display name and price of all PRODUCTS whose price is between $10 and $20 (inclusive) 
+                sorted from lowest to highest price
+
+                <p><em>SQL Statement:</em></p>
+                <p><code>
+                    SELECT ProductName, Price <br />
+                    FROM Products <br />
+                    WHERE Price BETWEEN 10 AND 20 <br />
+                    ORDER BY Price;
+                </code></p>
+
+                <p><em>Results:</em></p>
+                <img class="screenshot" src="images/part1results3.jpg" alt="images/part1results3.jpg" />
+            </li>
+
+            <!-- Query 4 -->
+            <li>
+                Display the PRODUCT name and price for suppliers 9-15 sorted by supplier number 
+                and then by product name
+
+                <p><em>SQL Statement:</em></p>
+                <p><code>
+                    SELECT ProductName, Price <br />
+                    FROM Products <br />
+                    WHERE SupplierID BETWEEN 9 AND 15 <br />
+                    ORDER BY SupplierID, ProductName;
+                </code></p>
+
+                <p><em>Results:</em></p>
+                <img class="screenshot" src="images/part1results4.jpg" alt="images/part1results4.jpg" />
+            </li>
+
+            <!-- Query 5 -->
+            <li>
+                Display the name of all EMPLOYEES with a BA or BS degree  (hint: use the notes) sorted 
+                alphabetically by their last name.
+
+                <p><em>
+                    I am assuming that the degree name has to be a word with an exact match in the "Notes", i.e. 
+                    I am not counting BSC and MBA.
+                </em></p>
+
+                <p><em>
+                    I am also assuming that the degree name will not show up as the first or last word of a sentence, 
+                    as that isn't the case in any of the records and wouldn't typically be the case if the notes were 
+                    written with typical sentence structures.
+                </em></p>
+
+                <p><em>SQL Statement:</em></p>
+                <p><code>
+                    SELECT LastName, FirstName <br /> 
+                    FROM Employees <br />
+                    WHERE Notes LIKE "% B[AS] %" <br />
+                    ORDER BY LastName;
+                </code></p>
+
+                <p><em>Results:</em></p>
+                <img class="screenshot" src="images/part1results5.jpg" alt="images/part1results5.jpg" />
+            </li>
+        </ol>
+
+        <h3>Part 2: Create a Database</h3>
+
+        <!-- ERD Diagram and Tables -->
+        <p><strong>ERD Diagram Representing Song List:</strong></p>
+        <img class="screenshot" src="images/part2diagram.jpg" alt="images/part2diagram.jpg" />
+
+        <p><strong>Data About Tables</strong></p>
+        <img class="screenshot" src="images/part2tables.jpg" alt="images/part2tables.jpg" />
+
+        <!-- The Three Tables, Populated -->
+        <p><strong>Populated Tables</strong></p>
+
+        <p><em>Songs</em></p>
+        <img class="screenshot" src="images/part2songs.jpg" alt="images/part2songs.jpg" />
+
+        <p><em>Genres</em></p>
+        <img class="screenshot" src="images/part2genres.jpg" alt="images/part2genres.jpg" />
+
+        <p><em>Association Table between Songs and Genres</em></p>
+        <img class="screenshot" src="images/part2song_genres.jpg" alt="images/part2song_genres.jpg" />
+
+        <!-- Query that Shows All Data in Each Table -->
+        <p><strong>Query All Data in Each Table</strong></p>
+
+        <p><em>
+            I am assuming that the instruction to "create and run a query to show all data in each of your 
+            tables" refers to calling a separate query per table, each of which shows all data within that 
+            given table.
+        </em></p>
+
+        <p><em>Songs:</em></p>
+
+        <p>Query:</p>
+        <p><code>SELECT * FROM `songs`;</code></p>
+
+        <p>Result:</p>
+        <img class="screenshot" src="images/part2_3-1.jpg" alt="images/part2_3-1.jpg" />
+
+        <p><em>Genres:</em></p>
+
+        <p>Query:</p>
+        <p><code>SELECT * FROM `genres`;</code></p>
+
+        <p>Result:</p>
+        <img class="screenshot" src="images/part2_3-2.jpg" alt="images/part2_3-2.jpg" />
+
+        <p><em>Association Table Between Songs and Genres:</em></p>
+
+        <p>Query:</p>
+        <p><code>SELECT * FROM `song_genres`;</code></p>
+
+        <p>Result:</p>
+        <img class="screenshot" src="images/part2_3-3.jpg" alt="images/part2_3-3.jpg" />
+
+        <!-- Specific Queries from part 2 number 4 -->
+        <p><strong>Specific Queries Specified in Number 4</strong></p>
+
+        <ol>
+            <li>
+                <p>show all song titles and the artist</p>
+
+                <p>Query:</p>
+                <p><code>SELECT `title`, `artist` FROM `songs`;</code></p>
+
+                <p>Results:</p>
+                <img class="screenshot" src="images/part2_4-1.jpg" alt="images/part2_4-1.jpg" />
+            </li>
+            <li>
+                <p>show all titles and all genres that correspond to them</p>
+
+                <p>Query:</p>
+                <p>
+                    <code>SELECT songs.title, genres.name <br />
+                    FROM songs INNER JOIN song_genres <br />
+                    ON songs.id = song_genres.song_id <br />
+                    INNER JOIN genres <br />
+                    ON song_genres.genre_id = genres.id;</code>
+                </p>
+
+                <p>Results:</p>
+                <img class="screenshot" src="images/part2_4-2.jpg" alt="images/part2_4-2.jpg" />
+            </li>
+        </ol>
+    </body>
+</html>
