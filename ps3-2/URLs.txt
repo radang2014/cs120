@@ -1,0 +1,18 @@
+The URL to the problems in this problem set is:
+https://randyd.sgedu.site/ps3-2/ps3-2.html
+
+
+URLs to each individual problem:
+
+Problem 1 (please append ?n=something for query string):
+https://randyd.sgedu.site/ps3-2/pages/problem1.php
+
+Problem 2:
+https://randyd.sgedu.site/ps3-2/pages/problem2.php
+
+Problem 3 Screenshots:
+https://randyd.sgedu.site/ps3-2/pages/problem3.html
+
+Problem 3 PHP file (please append ?n=something for query string):
+https://randyd.sgedu.site/ps3-2/pages/fibo.php
+
