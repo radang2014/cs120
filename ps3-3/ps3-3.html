@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Problem Set 3-3</title>
+        <meta http-equiv="description" content="Problem Set 3-3 Solution" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import "Inter" google fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- CSS -->
+        <style type="text/css">
+            body {
+                font-family: "Inter", serif;
+                max-width: 945px;
+            }
+            h1 {
+                text-align: center;
+            }
+            img.screenshot {
+                max-width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <p>
+            Randy Dang <br />
+            CS 120: Web Programming and Engineering <br />
+            April 8, 2024
+        </p>
+        <h1>Problem Set 3-3: NoSQL</h1>
+
+        <!-- Atlas Queries -->
+        <h3>Part 1: Atlas</h3>
+
+        <p><strong>All Data in Songs Collection:</strong></p>
+
+        <img class="screenshot" src="images/part1results1-1.JPG" alt="images/part1results1-1.JPG" />
+        <img class="screenshot" src="images/part1results1-2.JPG" alt="images/part1results1-2.JPG" />
+        <img class="screenshot" src="images/part1results1-3.JPG" alt="images/part1results1-3.JPG" />
+        <img class="screenshot" src="images/part1results1-4.JPG" alt="images/part1results1-4.JPG" />
+        <img class="screenshot" src="images/part1results1-5.JPG" alt="images/part1results1-5.JPG" />
+        <img class="screenshot" src="images/part1results1-6.JPG" alt="images/part1results1-6.JPG" />
+        <img class="screenshot" src="images/part1results1-7.JPG" alt="images/part1results1-7.JPG" />
+        <img class="screenshot" src="images/part1results1-8.JPG" alt="images/part1results1-8.JPG" />
+        <img class="screenshot" src="images/part1results1-9.JPG" alt="images/part1results1-9.JPG" />
+        <img class="screenshot" src="images/part1results1-10.JPG" alt="images/part1results1-10.JPG" />
+        <img class="screenshot" src="images/part1results1-11.JPG" alt="images/part1results1-11.JPG" />
+
+        <p><strong>Query to Get All Songs from a Genre:</strong></p>
+
+        <p>The genre I selected was: Pop</p>
+
+        <p>The query I used was: <code>{genre:"Pop"}</code></p>
+
+        <img class="screenshot" src="images/part1results2-1.JPG" alt="images/part1results2-1.JPG" />
+        <img class="screenshot" src="images/part1results2-2.JPG" alt="images/part1results2-2.JPG" />
+        <img class="screenshot" src="images/part1results2-3.JPG" alt="images/part1results2-3.JPG" />
+
+        <!-- Shell Commands -->
+        <h3>Part 2: Shell</h3>
+
+        <!-- Command 1 -->
+        <p><strong>Selecting the Database:</strong> (the database name is <code>ps3-3</code>)</p>
+
+        <p>Command: <code>use ps3-3</code></p>
+
+        <img class="screenshot" src="images/part2results1.JPG" alt="images/part2results1.JPG" />
+
+        <!-- Command 2 -->
+        <p><strong>Showing All Collections in the Database:</strong></p>
+
+        <p>Command: <code>show collections</code></p>
+
+        <img class="screenshot" src="images/part2results2.JPG" alt="images/part2results2.JPG" />
+
+        <!-- Command 3 -->
+        <p><strong>Showing All Data for All Documents</strong></p>
+
+        <p>Command: <code>db.songs.find()</code></p>
+
+        <img class="screenshot" src="images/part2results3-1.JPG" alt="images/part2results3-1.JPG" />
+        <img class="screenshot" src="images/part2results3-2.JPG" alt="images/part2results3-2.JPG" />
+
+        <!-- Command 4 -->
+        <p><strong>Showing Title, Artist, and Genres Corresponding to Each Song</strong></p>
+
+        <p>Command: <code>db.songs.find({}, {_id: 0, title: 1, artist: 1, genre: 1})</code></p>
+
+        <img class="screenshot" src="images/part2results4.JPG" alt="images/part2results4.JPG" />
+
+        <!-- Command 5 -->
+        <p><strong>Showing Titles for Particular Genre</strong></p>
+
+        <p>The genre I selected was: Pop</p>
+
+        <p>Command: <code>db.songs.find({genre: "Pop"}, {_id: 0, title: 1})</code></p>
+
+        <img class="screenshot" src="images/part2results5.JPG" alt="images/part2results5.JPG" />
+
+        <!-- Command 6 -->
+        <p><strong>Showing Title and Artist for Songs Belonging to Two Specific Genres</strong></p>
+
+        <p>The two genres I selected were: Film and Soundtrack</p>
+
+        <p>Command: <code>db.songs.find({genre: {$all: ["Film", "Soundtrack"]}}, {_id: 0, title: 1, artist: 1})</code></p>
+
+        <img class="screenshot" src="images/part2results6.JPG" alt="images/part2results6.JPG" />
+    </body>
+</html>
