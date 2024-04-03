@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Project 3 Deliverables</title>
+        <meta http-equiv="description" content="Project 3 Deliverable Document" />
+        <meta http-equiv="keywords" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Import "Inter" google fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+
+        <!-- CSS -->
+        <style type="text/css">
+            body {
+                font-family: "Inter", serif;
+                max-width: 945px;
+            }
+            h1 {
+                text-align: center;
+            }
+            img.screenshot {
+                max-width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <p>
+            Randy Dang <br />
+            CS 120: Web Programming and Engineering <br />
+            April 4, 2024
+        </p>
+        <h1>Project 3: E-Commerce</h1>
+
+        <h3>Website URL</h3>
+
+        <p>
+            The URL to the products page of the website is here:
+            <a href="https://randyd.sgedu.site/proj3/pages/products.php" target="_blank">
+                https://randyd.sgedu.site/proj3/pages/products.php
+            </a>
+        </p>
+
+        <p>
+            All citations for the page are here:
+            <a href="https://randyd.sgedu.site/proj3/pages/credits.html" target="_blank">
+                https://randyd.sgedu.site/proj3/pages/credits.html
+            </a>
+        </p>
+
+        <h3>Database Table Screenshots</h3>
+
+        <p><strong>Products Table:</strong></p>
+
+        <img class="screenshot" src="images/products_table1.JPG" alt="images/products_table1.JPG" />
+        <img class="screenshot" src="images/products_table2.JPG" alt="images/products_table2.JPG" />
+
+        <p><strong>Orders Table:</strong></p>
+
+        <img class="screenshot" src="images/orders_table.JPG" alt="images/orders_table.JPG" />
+
+        <p><em>Export of the database is in <code>proj3_db.csv</code>, submitted on Canvas.</em></p>
+
+        <h3>Code Listing</h3>
+
+        <h4>CSS</h4>
+
+        <p><strong>style.css</strong></p>
+
+        <pre>
+            body {
+                font-family: 'Inter', serif;
+                background-color: lightsalmon;
+            }
+            
+            h1 {
+                font-family: 'Tangerine', serif;
+                color: blue;
+                font-size: 45px;
+                text-align: center;
+                position: fixed;
+            }
+            
+            #title {
+                position: fixed;
+                left: 200px;
+            }
+            
+            h2 {
+                color: blue;
+                font-size: 30px;
+                text-align: center;
+            }
+            
+            h3 {
+                color: blue;
+            }
+            
+            div#logo { /* For logo displayed on each page */
+                background-image: url("../images/logo.jpg");
+                background-size: 100%;
+                width: 70px; /* dimensions of image */
+                height: 102px;
+                position: fixed;
+                left: 0px;
+                top: 0px;
+            }
+            div#title_stripe {
+                position: fixed;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 102px;
+                border: 1px solid black;
+                background-color: lightsalmon;
+            }
+            
+            /* Navigation */
+            div.navigation_stripe {
+                width: 100%;
+                height: 30px;
+                position: fixed;
+                top: 102px; /* Immediately below logo */
+                left: 0px;
+                border: 1px solid black;
+                display: flex;
+                background-color: lightsalmon;
+            }
+            div.navigation {
+                width: 20%;
+                border: 1px solid black;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            div#header_padding { /* Empty space to pad fixed header, incl. title/logo, navigation */
+                width: 100%;
+                height: 132px; /* 102 px for logo/title + 30 px for navigation bar */
+            }
+            
+            /* General styling */ 
+            img.menu_item {
+                max-width: 30%;
+                display: inline-block;
+            }
+            span.menu_item {
+                font-weight: bold; /* make names of menu items bold */
+            }
+            div.container {
+                display: inline-block;
+                padding: 10px;
+            }
+            
+            /* To look good on phone */
+            @media(max-width: 700px) {
+                #title {
+                    left: 100px;
+                }
+                h1 {
+                    font-size: 35px;
+                }
+                .navigation_stripe {
+                    font-size: 10px;
+                }
+            }
+        </pre>
+        
+        <h4>Helper Modules</h4>
+
+        <p><strong>db_common.php</strong></p>
+
+        <pre>
+&lt;?php 
+    /* Defines single point of truth for connecting to database */ 
+    function connect_db() {
+        /* Access database */ 
+        $server = "localhost";
+        $db = "db9r7g90hj6igl";
+        $userid = "uckgwggewitgq";
+        $pw = "*r#79gHKQMv!g#";
+
+        $conn = new mysqli($server, $userid, $pw);
+        if ($conn->connect_error) {
+            die("IMPOSSIBLE ERROR: Connection to database failed: " . $conn->connect_error);
+        }
+        $conn->select_db($db);
+
+        return $conn;
+    }
+
+    /* Given product id, return associative array containing info about product */ 
+    function get_product_info_by_id($id) {
+        $conn = connect_db();
+        $sql = "SELECT * FROM products WHERE id = $id";
+        $result = $conn->query($sql);
+        if ($result->num_rows == 0) {
+            die("IMPOSSIBLE ERROR: Invalid ID passed to get_product_info_by_id. Please contact developer.");
+        }
+        return $result->fetch_assoc();
+    }
+?>
+        </pre>
+
+        <p><strong>navigation.js</strong></p>
+
+        <pre>
+/**** Contains functionality related to navigating from page to page ****/
+
+/* Directs user back to products page */
+function return_to_products() {
+    window.location.assign("products.php");
+}
+/* Directs user to orders page */
+function go_to_orders() {
+    window.location.assign("orders.php");
+}
+        </pre>
+
+        <h4>Pages on Site</h4>
+
+        <p><strong>cart.php</strong></p>
+
+        <pre>
+        &lt;?php 
+            session_start();
+        ?>
+        &lt;!DOCTYPE html>
+        &lt;html>
+            &lt;head>
+                &lt;title>Cart&lt;/title>
+                &lt;meta http-equiv="description" content="Cart Temporarily Storing Items User Would Like to Purchase" />
+                &lt;meta http-equiv="keywords" content="" />
+                &lt;meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+                &lt;!-- Import Google Fonts -->
+                &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+                &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+        
+                &lt;!-- Import JQuery -->
+                &lt;script src="https://code.jquery.com/jquery-3.7.1.min.js">&lt;/script>
+        
+                &lt;!-- CSS -->
+                &lt;link rel="stylesheet" href="../css/style.css" type="text/css" />
+                &lt;style type="text/css">&lt;/style>
+            &lt;/head>
+            &lt;body>
+                &lt;!-- Logo and Title -->
+                &lt;div id="title_stripe">
+                    &lt;div id="logo">&lt;/div>
+                    &lt;h1 id="title">Randy's Made-Up Restaurant&lt;/h1>
+                &lt;/div>
+        
+                &lt;!-- Navigation --> 
+                &lt;div class="navigation_stripe">
+                    &lt;div class="navigation">
+                        &lt;a href="products.php">Products / Menu&lt;/a>
+                    &lt;/div>
+                    &lt;div class="navigation">
+                        &lt;strong>Cart&lt;/strong> 
+                    &lt;/div>
+                    &lt;div class="navigation">
+                        &lt;a href="thankyou.php">Thank You&lt;/a>
+                    &lt;/div>
+                    &lt;div class="navigation">
+                        &lt;a href="orders.php">Orders&lt;/a> 
+                    &lt;/div>
+                    &lt;div class="navigation">
+                        &lt;a href="credits.html">Credits&lt;/a> 
+                    &lt;/div>
+                &lt;/div>
+        
+                &lt;div id="header_padding">&lt;/div>
+                
+                &lt;h2>Your Cart&lt;/h2>
+        
+                &lt;?php 
+                    /***** Read item to add to cart from post data, if applicable *****/
+                    include '../include/db_common.php';
+                    $MAX_CART_SIZE = 5; /* Database cannot support order with >5 unique items */
+        
+                    /* Read from `products` database and returns array of product ids */
+                    function get_product_ids() {
+                        $conn = connect_db();
+                        $sql = "SELECT id FROM products";
+                        $result = $conn->query($sql);
+        
+                        $prod_ids = array();
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                array_push($prod_ids, $row["id"]);
+                            }
+                        }
+                        
+                        return $prod_ids;
+                    }
+        
+                    $prod_ids = get_product_ids();
+                    
+                    /* If applicable, add item that was just added to cart to the cart session variable */
+                    foreach($prod_ids as $prod_id) {
+                        $qty = $_POST["prod" . $prod_id . "_qty"];
+                        if (isset($qty)) {
+                            if (!isset($_SESSION["cart"])) {
+                                /* Initialize cart if this is the first time it is being used */
+                                $_SESSION["cart"] = array();
+                            }
+        
+                            /* If item already in cart, simply add to the quantity. Otherwise, append as new item */
+                            $in_cart = false;
+                            for($i = 0; $i &lt; count($_SESSION["cart"]); $i++) {
+                                if ($_SESSION["cart"][$i]["prodid"] == $prod_id) {
+                                    $_SESSION["cart"][$i]["qty"] += $qty;
+                                    $in_cart = true;
+                                }
+                            }
+                            if (!$in_cart and count($_SESSION["cart"]) &lt; $MAX_CART_SIZE) {
+                                array_push($_SESSION["cart"], array(
+                                    "prodid"=>$prod_id,
+                                    "qty"=>$qty
+                                ));
+                            } elseif (!$in_cart) {
+                                /* Display error message if cart is full */
+                                echo "&lt;script>alert('Unfortunately, we do not currently support cart sizes exceeding " .
+                                     "$MAX_CART_SIZE unique items. If you would like to purchase more than $MAX_CART_SIZE " .
+                                     "unique items, please split that across multiple orders. Thank you for shopping with " .
+                                     "us!')&lt;/script>";
+                            }
+                        }
+                    }
+        
+                    /* If applicable, remove item that was just requested to be removed from the cart */ 
+                    $idx_to_remove = $_POST["idx_to_remove"];
+                    if (isset($idx_to_remove)) {
+                        array_splice($_SESSION["cart"], $idx_to_remove, 1);
+                    }
+        
+                    /**** Display all items in cart on the page *****/
+                    $order_total = 0;
+                    if (!isset($_SESSION["cart"]) or count($_SESSION["cart"]) == 0) {
+                        echo "&lt;p>Your cart is currently empty.&lt;/p>";
+                        echo "&lt;input type=\"button\" onclick=\"return_to_products()\" value=\"Continue Shopping\" />";
+                    } else {
+                        echo "&lt;p>You currently have the following items in your cart:&lt;/p>";
+                        
+                        echo "&lt;table border=\"1\" cellpadding=\"4\" cellspacing=\"2\">";
+                            echo "&lt;tr>";
+                                echo "&lt;th>Item&lt;/th>";
+                                echo "&lt;th>Qty&lt;/th>";
+                                echo "&lt;th>Price Per Unit&lt;/th>";
+                                echo "&lt;th>Total Cost&lt;/th>";
+                                echo "&lt;th>&nbsp;&lt;/th>";
+                            echo "&lt;/tr>";
+        
+                            $item_idx = 0;
+                            foreach ($_SESSION["cart"] as $item) {
+                                echo "&lt;tr>";
+        
+                                $item_info = get_product_info_by_id($item["prodid"]);
+                                $total_price = $item_info["price"] * $item["qty"];
+        
+                                echo "&lt;td>" . $item_info["name"] . "&lt;/td>";
+                                echo "&lt;td>" . $item["qty"] . "&lt;/td>";
+                                echo "&lt;td>$" . $item_info["price"] . "&lt;/td>";
+                                echo "&lt;td>$" . $total_price . "&lt;/td>";
+                                $order_total += $total_price;
+        
+                                echo "&lt;td>";
+                                    echo "&lt;form method=\"post\" action=\"cart.php\" name=\"remove$item_idx\">";
+                                        /* hidden input field specifying index of item on cart to remove */
+                                        echo "&lt;input type=\"hidden\" name=\"idx_to_remove\" value=\"$item_idx\" />";
+                                        echo "&lt;input type=\"submit\" value=\"Remove from cart\" />";
+                                    echo "&lt;/form>";
+                                echo "&lt;/td>";
+        
+                                echo "&lt;/tr>";
+        
+                                $item_idx++;
+                            }
+                        echo "&lt;/table> &lt;br />";
+                        
+                        /***** Display Order Total and Button for Checking Out *****/
+                        echo "&lt;p>Your order total is: $" . $order_total . ".&lt;/p> &lt;br />";
+                        echo "&lt;form method=\"post\" action=\"thankyou.php\">";
+                            echo "&lt;input type=\"hidden\" name=\"order_total\" value=\"$order_total\" />";
+                            echo "&lt;input type=\"button\" onclick=\"return_to_products()\" value=\"Continue Shopping\" />";
+                            echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"; /* Add space between two buttons */
+                            echo "&lt;input type=\"submit\" value=\"Check Out\" />"; 
+                        echo "&lt;/form>";
+                    }
+                ?>
+        
+                &lt;script src="../include/navigation.js">&lt;/script>
+            &lt;/body>
+        &lt;/html>
+        </pre>
+
+        <p><strong>credits.html</strong></p>
+
+        <pre>
+&lt;!DOCTYPE html>
+&lt;html>
+    &lt;head>
+        &lt;title>Credits&lt;/title>
+        &lt;meta http-equiv="description" content="Citations for this Website" />
+        &lt;meta http-equiv="keywords" content="" />
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        &lt;!-- Import Google Fonts -->
+        &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+        &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+
+        &lt;!-- Import JQuery -->
+        &lt;script src="https://code.jquery.com/jquery-3.7.1.min.js">&lt;/script>
+
+        &lt;!-- CSS -->
+        &lt;link rel="stylesheet" href="../css/style.css" type="text/css" />
+        &lt;style type="text/css">&lt;/style>
+    &lt;/head>
+    &lt;body>
+        &lt;!-- Logo and Title -->
+        &lt;div id="title_stripe">
+            &lt;div id="logo">&lt;/div>
+            &lt;h1 id="title">Randy's Made-Up Restaurant&lt;/h1>
+        &lt;/div>
+
+        &lt;!-- Navigation --> 
+        &lt;div class="navigation_stripe">
+            &lt;div class="navigation">
+                &lt;a href="products.php">Products / Menu&lt;/a>
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;a href="cart.php">Cart&lt;/a>
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;a href="thankyou.php">Thank You&lt;/a>
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;a href="orders.php">Orders&lt;/a> 
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;strong>Credits&lt;/strong>
+            &lt;/div>
+        &lt;/div>
+
+        &lt;div id="header_padding">&lt;/div>
+        
+        &lt;h2>Credits&lt;/h2>
+
+        &lt;p>
+            This website was created as a project for the course 
+            &lt;em>CS 120: Web Programming & Engineering&lt;/em> at Tufts University. This restaurant 
+            and menu is entirely made up. Please do not actually expect any food to arrive for any of 
+            the orders you placed on the website. You will surely be disappointed 
+            if you do.
+        &lt;/p>
+
+        &lt;h3>Acknowledgements&lt;/h3>
+
+        &lt;ul>
+            &lt;li>
+                Professor Lisa Diorio for teaching many HTML, CSS, JavaScript, MySQL, and 
+                PHP tricks used on this website.
+            &lt;/li>
+            &lt;li>
+                The internet at large, including sites like
+                &lt;a href="https://www.w3schools.com" target="_blank">w3schools.com&lt;/a>, 
+                &lt;a href="https://www.stackoverflow.com" target="_blank">stackoverflow.com&lt;/a>,
+                and &lt;a href="https://www.geeksforgeeks.org" target="_blank">geeksforgeeks.org&lt;/a>,
+                for teaching me additional tricks, including the &lt;code>date()&lt;/code>
+                function in PHP.
+            &lt;/li>
+        &lt;/ul>
+
+        &lt;h3>Image Sources:&lt;/h3>
+
+        &lt;ul>
+            &lt;li>
+                Fork and Knife Logo: 
+                &lt;a href="https://unsplash.com/photos/silver-spoon-and-fork-on-white-background-qsvQfsSUOgk" target="_blank">
+                    https://unsplash.com/photos/silver-spoon-and-fork-on-white-background-qsvQfsSUOgk
+                &lt;/a>
+            &lt;/li>
+            &lt;li>
+                Mozzarella Sticks:
+                &lt;a href="https://www.allrecipes.com/recipe/23596/fried-mozzarella-cheese-sticks/" target="_blank">
+                    https://www.allrecipes.com/recipe/23596/fried-mozzarella-cheese-sticks/
+                &lt;/a>
+            &lt;/li>
+            &lt;li>
+                Pork Dumplings:
+                &lt;a href="https://www.allrecipes.com/recipe/14759/pork-dumplings/" target="_blank">
+                    https://www.allrecipes.com/recipe/14759/pork-dumplings/
+                &lt;/a>
+            &lt;/li>
+            &lt;li>
+                Nachos:
+                &lt;a href="https://www.allrecipes.com/loaded-beef-nachos-recipe-7489045" target="_blank">
+                    https://www.allrecipes.com/loaded-beef-nachos-recipe-7489045
+                &lt;/a>
+            &lt;/li>
+            &lt;li>
+                Eggplant Parmesan:
+                &lt;a href="https://www.allrecipes.com/recipe/254982/eggplant-parmesan-gluten-free/" target="_blank">
+                    https://www.allrecipes.com/recipe/254982/eggplant-parmesan-gluten-free/
+                &lt;/a>
+            &lt;/li>
+            &lt;li>
+                Shrimp Fried Rice:
+                &lt;a href="https://www.allrecipes.com/recipe/21561/shrimp-fried-rice-ii/" target="_blank">
+                    https://www.allrecipes.com/recipe/21561/shrimp-fried-rice-ii/
+                &lt;/a>
+            &lt;/li>
+            &lt;li>
+                Chicken Burrito:
+                &lt;a href="https://www.allrecipes.com/recipe/241584/fiesta-chicken-burritos/" target="_blank">
+                    https://www.allrecipes.com/recipe/241584/fiesta-chicken-burritos/
+                &lt;/a>
+            &lt;/li>
+            &lt;li>
+                Sirloin Steak:
+                &lt;a href="https://www.allrecipes.com/recipe/8392244/grilled-sirloin-tri-tip/" target="_blank">
+                    https://www.allrecipes.com/recipe/8392244/grilled-sirloin-tri-tip/
+                &lt;/a>
+            &lt;/li>
+            &lt;li>
+                Potato Wedges:
+                &lt;a href="https://www.allrecipes.com/recipe/281492/roasted-lemon-garlic-potato-wedges/" target="_blank">
+                    https://www.allrecipes.com/recipe/281492/roasted-lemon-garlic-potato-wedges/
+                &lt;/a>
+            &lt;/li>
+            &lt;li>
+                Caesar Salad:
+                &lt;a href="https://www.allrecipes.com/recipe/229063/classic-restaurant-caesar-salad/" target="_blank">
+                    https://www.allrecipes.com/recipe/229063/classic-restaurant-caesar-salad/
+                &lt;/a>
+            &lt;/li>
+            &lt;li>
+                New York-style Cheesecake:
+                &lt;a href="https://www.allrecipes.com/recipe/8350/chantals-new-york-cheesecake/" target="_blank">
+                    https://www.allrecipes.com/recipe/8350/chantals-new-york-cheesecake/
+                &lt;/a>
+            &lt;/li>
+            &lt;li>
+                Fried Ice Cream:
+                &lt;a href="https://www.allrecipes.com/recipe/20988/fried-ice-cream/" target="_blank">
+                    https://www.allrecipes.com/recipe/20988/fried-ice-cream/
+                &lt;/a>
+            &lt;/li>
+            &lt;li>
+                Chocolate Souffl&eacute; 
+                &lt;a href="https://www.allrecipes.com/recipe/257193/chef-johns-chocolate-souffle/" target="_blank">
+                    https://www.allrecipes.com/recipe/257193/chef-johns-chocolate-souffle/
+                &lt;/a>
+            &lt;/li>
+        &lt;/ul>
+    &lt;/body>
+&lt;/html>
+        </pre>
+
+        <p><strong>orders.php</strong></p>
+
+        <pre>
+&lt;?php 
+    session_start();
+?>
+&lt;!DOCTYPE html>
+&lt;html>
+    &lt;head>
+        &lt;title>Orders&lt;/title>
+        &lt;meta http-equiv="description" content="Food Orders Placed" />
+        &lt;meta http-equiv="keywords" content="" />
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        &lt;!-- Import Google Fonts -->
+        &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+        &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+
+        &lt;!-- Import JQuery -->
+        &lt;script src="https://code.jquery.com/jquery-3.7.1.min.js">&lt;/script>
+
+        &lt;!-- CSS -->
+        &lt;link rel="stylesheet" href="../css/style.css" type="text/css" />
+        &lt;style type="text/css">&lt;/style>
+    &lt;/head>
+    &lt;body>
+        &lt;!-- Logo and Title -->
+        &lt;div id="title_stripe">
+            &lt;div id="logo">&lt;/div>
+            &lt;h1 id="title">Randy's Made-Up Restaurant&lt;/h1>
+        &lt;/div>
+
+        &lt;!-- Navigation --> 
+        &lt;div class="navigation_stripe">
+            &lt;div class="navigation">
+                &lt;a href="products.php">Products / Menu&lt;/a>
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;a href="cart.php">Cart&lt;/a>
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;a href="thankyou.php">Thank You&lt;/a>
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;strong>Orders&lt;/strong> 
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;a href="credits.html">Credits&lt;/a> 
+            &lt;/div>
+        &lt;/div>
+
+        &lt;div id="header_padding">&lt;/div>
+        
+        &lt;h2>Orders&lt;/h2>
+
+        &lt;?php 
+            include '../include/db_common.php';
+
+            /* Read info about all orders from database */
+            $conn = connect_db();
+            $sql = "SELECT * FROM orders ORDER BY id DESC";
+            $result = $conn->query($sql);
+            if ($result->num_rows == 0) {
+                echo "&lt;p>You do not currently have any orders placed.&lt;/p>";
+            } else {
+                echo "&lt;hr />";
+                while ($row = $result->fetch_assoc()) {
+                    /*** Print summary for each order ***/
+                    echo "&lt;h3>Order " . $row["id"] . " Summary&lt;/h3>";
+
+                    echo "&lt;p>Date Ordered: " . $row["date"] . "&lt;/p>";
+                    echo "&lt;p>Order ID: " . $row["id"] . "&lt;/p>";
+
+                    /* Print individual items ordered */
+                    $order_total = 0;
+                    echo "&lt;table border=\"1\" cellpadding=\"4\" cellspacing=\"2\">";
+                        echo "&lt;tr>";
+                            echo "&lt;th>Item Ordered&lt;/th>";
+                            echo "&lt;th>Qty&lt;/th>";
+                            echo "&lt;th>Price Per Unit&lt;/th>";
+                            echo "&lt;th>Total Cost&lt;/th>";
+                        echo "&lt;/tr>";
+
+                        for ($i = 1; $i &lt;= 5; $i++) { /* Each order has between 1 and 5 unique items */
+                            /* If item does not exist (i.e. NULL value), we have finished displaying order items */ 
+                            $item_id = $row["item" . $i . "_id"];
+                            $qty = $row["item" . $i . "_qty"];
+                            if ($item_id == NULL) {
+                                break;
+                            }
+
+                            /* Display info about this order item */
+                            echo "&lt;tr>";
+
+                            $item_info = get_product_info_by_id($item_id);
+                            $total_price = $item_info["price"] * $qty;
+
+                            echo "&lt;td>" . $item_info["name"] . "&lt;/td>";
+                            echo "&lt;td>" . $qty . "&lt;/td>";
+                            echo "&lt;td>$" . $item_info["price"] . "&lt;/td>";
+                            echo "&lt;td>$" . $total_price . "&lt;/td>";
+                            $order_total += $total_price;
+
+                            echo "&lt;/tr>";
+                        }
+                    echo "&lt;/table> &lt;br />";
+
+                    echo "&lt;p>Order Total: $$order_total&lt;/p>";
+
+                    echo "&lt;hr />";
+                }
+            }
+        ?>
+
+        &lt;input type="button" value="Continue Shopping" onclick="return_to_products()" />
+
+        &lt;script src="../include/navigation.js">&lt;/script>
+    &lt;/body>
+&lt;/html>
+        </pre>
+
+        <p><strong>products.php</strong></p>
+
+        <pre>
+&lt;?php 
+    session_start();
+?>
+&lt;!DOCTYPE html>
+&lt;html>
+    &lt;head>
+        &lt;title>Products&lt;/title>
+        &lt;meta http-equiv="description" content="Restaurant Menu Items Available for Purchase" />
+        &lt;meta http-equiv="keywords" content="" />
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        &lt;!-- Import Google Fonts -->
+        &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+        &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+
+        &lt;!-- Import JQuery -->
+        &lt;script src="https://code.jquery.com/jquery-3.7.1.min.js">&lt;/script>
+
+        &lt;!-- CSS -->
+        &lt;link rel="stylesheet" href="../css/style.css" type="text/css" />
+        &lt;style type="text/css">
+            div.description {
+                display: none; /* hide descriptions by default */
+            }
+        &lt;/style>
+    &lt;/head>
+    &lt;body>
+        &lt;!-- Logo and Title -->
+        &lt;div id="title_stripe">
+            &lt;div id="logo">&lt;/div>
+            &lt;h1 id="title">Randy's Made-Up Restaurant&lt;/h1>
+        &lt;/div>
+
+        &lt;!-- Navigation --> 
+        &lt;div class="navigation_stripe">
+            &lt;div class="navigation">
+                &lt;strong>Products / Menu&lt;/strong>
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;a href="cart.php">Cart&lt;/a> 
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;a href="thankyou.php">Thank You&lt;/a>
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;a href="orders.php">Orders&lt;/a> 
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;a href="credits.html">Credits&lt;/a> 
+            &lt;/div>
+        &lt;/div>
+
+        &lt;div id="header_padding">&lt;/div>
+        
+        &lt;p>
+            Welcome to Randy's Made-Up Restaurant, where you can purchase food items from our menu! Note 
+            that it takes about two days to process your order (so place your order two days in advance 
+            of when you expect to enjoy your meal), but you can be sure that your meal will be hot and 
+            fresh when it arrives! 
+        &lt;/p>
+
+        &lt;h2>Menu&lt;/h2>
+
+        &lt;?php 
+            /***** Read from database and display menu items on page *****/ 
+            include '../include/db_common.php';
+            $conn = connect_db();
+
+            /* Display appetizers, entrees, sides, and desserts, in that order */
+            foreach(array("Appetizer", "Entree", "Side", "Dessert") as $menu_category) {
+                echo "&lt;h3>" . $menu_category . "s" . "&lt;/h3>";
+
+                display_category($menu_category, $conn);
+            }
+
+            /* 
+             * Displays `category` of menu on page, with `conn` being the handle connecting to the appropriate 
+             * database
+             */
+            function display_category($category, $conn) {
+                $sql = "SELECT * FROM products WHERE item_type = '$category'";
+                $result = $conn->query($sql);
+
+                /* Read results of query and display on page */
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        display_item($row);
+                    }
+                }
+            }
+
+            /* Displays menu item `item` on page, where `item` is an associative array containing info about the item */
+            function display_item($item) {
+                echo "&lt;div>";
+
+                    echo "&lt;img class=\"menu_item\" src=\"" . $item["img_url"] . "\" alt=\"" . $item["img_url"] . "\" />";
+                    echo "&lt;div class=\"container\">";
+
+                        echo "&lt;span class=\"menu_item\">" . $item["name"] . "&lt;/span> &lt;br />";
+                        echo "&lt;span class=\"menu_item\">$" . $item["price"] . "&lt;/span> &lt;br />";
+
+                        /* Implement functionality to post to cart.php if "Add to Cart" is pressed */
+                        echo "&lt;form method=\"post\" action=\"cart.php\">"; 
+                            echo "Quantity: &lt;select name=\"prod" . $item["id"] . "_qty\" id=\"prod" . $item["id"] . "_qty\">";
+
+                                $MAX_QTY = 5;
+                                for ($i = 1; $i &lt;= $MAX_QTY; $i++) {
+                                    echo "&lt;option value=\"$i\">$i&lt;/option>";
+                                }
+                            
+                            echo "&lt;/select> &lt;br />";
+                            echo "&lt;input type=\"submit\" value=\"Add to Cart\" /> &lt;br />";
+                        echo "&lt;/form>";
+
+                        echo "&lt;input type=\"button\" value=\"More\" onclick=\"show_description('prod" . 
+                             $item["id"] . "_description')\" />";
+
+                    echo "&lt;/div>";
+                echo "&lt;/div>";
+                echo "&lt;br />";
+                echo "&lt;div class=\"description\" id=\"prod" . $item["id"] . "_description\">" . 
+                     $item["description"] . "&lt;/div>";
+                echo "&lt;br />";
+            }
+        ?>
+
+        &lt;script>
+            /* Shows div containing description with inputted ID */ 
+            function show_description(id) {
+                $("#" + id).show();
+            }
+        &lt;/script>
+    &lt;/body>
+&lt;/html>
+        </pre>
+
+        <p><strong>thankyou.php</strong></p>
+
+        <pre>
+&lt;?php 
+    session_start();
+?>
+&lt;!DOCTYPE html>
+&lt;html>
+    &lt;head>
+        &lt;title>Thank You&lt;/title>
+        &lt;meta http-equiv="description" content="Confirmation Page After Order" />
+        &lt;meta http-equiv="keywords" content="" />
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        &lt;!-- Import Google Fonts -->
+        &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+        &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+
+        &lt;!-- Import JQuery -->
+        &lt;script src="https://code.jquery.com/jquery-3.7.1.min.js">&lt;/script>
+
+        &lt;!-- CSS -->
+        &lt;link rel="stylesheet" href="../css/style.css" type="text/css" />
+        &lt;style type="text/css">&lt;/style>
+    &lt;/head>
+    &lt;body>
+        &lt;!-- Logo and Title -->
+        &lt;div id="title_stripe">
+            &lt;div id="logo">&lt;/div>
+            &lt;h1 id="title">Randy's Made-Up Restaurant&lt;/h1>
+        &lt;/div>
+
+        &lt;!-- Navigation --> 
+        &lt;div class="navigation_stripe">
+            &lt;div class="navigation">
+                &lt;a href="products.php">Products / Menu&lt;/a>
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;a href="cart.php">Cart&lt;/a>
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;strong>Thank You&lt;/strong>
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;a href="orders.php">Orders&lt;/a> 
+            &lt;/div>
+            &lt;div class="navigation">
+                &lt;a href="credits.html">Credits&lt;/a> 
+            &lt;/div>
+        &lt;/div>
+
+        &lt;div id="header_padding">&lt;/div>
+        
+        &lt;h2>Thank You&lt;/h2>
+
+        &lt;?php 
+            include '../include/db_common.php';
+
+            /* `order_total` would only contain a value if an order was just placed */
+            $order_placed = isset($_POST["order_total"]);
+
+            if ($order_placed) {
+                /* Error checking on cart size, just in case. This should never happen. */ 
+                $MAX_CART_SIZE = 5;
+                if (count($_SESSION["cart"]) &lt; 1 or count($_SESSION["cart"]) > $MAX_CART_SIZE) {
+                    die("IMPOSSIBLE ERROR: Cart size was not between 1 and $MAX_CART_SIZE. Please contact developer.");
+                }
+
+                $order_idx = 1;
+                $colnames_to_insert = array();
+                $values_to_insert = array();
+                foreach ($_SESSION["cart"] as $item) { /* Read items from cart */
+                    array_push($colnames_to_insert, "item" . $order_idx . "_id");
+                    array_push($colnames_to_insert, "item" . $order_idx . "_qty");
+
+                    array_push($values_to_insert, $item["prodid"]);
+                    array_push($values_to_insert, $item["qty"]);
+
+                    $order_idx++;
+                }
+                /* Add today's date as the order date */ 
+                array_push($colnames_to_insert, "date");
+                array_push($values_to_insert, "DATE '" . date("Y-m-d") . "'");
+
+                /* Form SQL Query and insert into database */ 
+                $sql = "INSERT INTO orders (" . join(", ", $colnames_to_insert) . ") " . 
+                        "VALUES (" . join(", ", $values_to_insert) . ")";
+                $conn = connect_db();
+                $conn->query($sql);
+
+                /* Form thank you message */ 
+                $shipping_date = date("m/d/Y", strtotime(date("Y-m-d") . "+ 2 days"));
+                echo "&lt;p>Thank you for your order! Your total was $" . $_POST["order_total"] . 
+                     ", and we will ship your order on $shipping_date. You should receive " . 
+                     "your meal on that same day.&lt;/p>";
+                
+                /* Clear cart */ 
+                $_SESSION["cart"] = array();
+            } else {
+                echo "&lt;p>This page is meant to serve as a confirmation immediately following " . 
+                     "the placement of an order. If you are reading this message, that means " . 
+                     "that you did not &lt;em>just&lt;/em> place an order. Use the buttons below to " . 
+                     "shop for an order or view orders you have previously placed.&lt;/p>";
+            }
+        ?>
+
+        &lt;!-- Navigation Buttons -->
+        &lt;input type="button" value="Continue Shopping" onclick="return_to_products()" />
+        &lt;input type="button" value="View All Orders" onclick="go_to_orders()" />
+
+        &lt;script src="../include/navigation.js">&lt;/script>
+    &lt;/body>
+&lt;/html>
+        </pre>
+
+    </body>
+</html>
