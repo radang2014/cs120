@@ -42,6 +42,10 @@ http.createServer(function(req, res) {
     }
 
     fs.readFile("css/style.css", function(err, txt) {
+        if (err) {
+            console.log("Error reading from file css/style.css: " + err);
+        }
+
         /* Boilerplate HTML */
         res.write("<!DOCTYPE html>");
         res.write("<style type=\"text/css\">");
