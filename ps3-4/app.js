@@ -41,44 +41,49 @@ http.createServer(function(req, res) {
         return;
     }
 
+    res.write("<p>Print Statement 1</p>");
+
     fs.readFile("css/style.css", function(err, txt) {
         if (err) {
             console.log("Error reading from file css/style.css: " + err);
-        }
-
-        /* Boilerplate HTML */
-        res.write("<!DOCTYPE html>");
-        res.write("<style type=\"text/css\">");
-        if (err) {
-            console.log("Error: Failed to read from css/style.css: " + err);
         } else {
-            res.write(txt);
-        }
-        res.write("</style>");
-
-        /* Connect to Mongo Database */
-        MongoClient.connect(conn_str, async function(err, db) {
+            res.write("<p>Print Statement 2</p>");
+            /* Boilerplate HTML */
+            res.write("<!DOCTYPE html>");
+            res.write("<style type=\"text/css\">");
             if (err) {
-                console.log("Error connecting to database: " + err);
+                console.log("Error: Failed to read from css/style.css: " + err);
             } else {
-                try {
-                    /* App 1 Page */
-                    if (urlObj.pathname.startsWith("/app1")) {
-                        await write_app1(req, res, db);
-                    }
-
-                    /* App 2 Page */
-                    if (urlObj.pathname.startsWith("/app2")) {
-                        await write_app2(req, res, db);
-                    }
-                } catch (err) {
-                    console.log("Database error: " + err);
-                } finally {
-                    db.close();
-                    res.end();
-                }
+                res.write(txt);
             }
-        });
+            res.write("</style>");
+
+            /* Connect to Mongo Database */
+            MongoClient.connect(conn_str, async function(err, db) {
+                res.write("<p>Print Statement 3</p>");
+                if (err) {
+                    console.log("Error connecting to database: " + err);
+                } else {
+                    try {
+                        /* App 1 Page */
+                        if (urlObj.pathname.startsWith("/app1")) {
+                            res.write("<p>Print Statement 4</p>");
+                            await write_app1(req, res, db);
+                        }
+
+                        /* App 2 Page */
+                        if (urlObj.pathname.startsWith("/app2")) {
+                            await write_app2(req, res, db);
+                        }
+                    } catch (err) {
+                        console.log("Database error: " + err);
+                    } finally {
+                        db.close();
+                        res.end();
+                    }
+                }
+            });
+        }
     });
 }).listen(port);
 
