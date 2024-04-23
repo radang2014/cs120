@@ -177,7 +177,7 @@ async function write_app2(req, res, db) {
         all_data = await places.find({}).toArray();
         if (all_data.length == 0) {
             res.write("<p class=\"error\">ERROR: Database is currently empty. Please populate by " + 
-                      "running App 1 in insert mode.</p>");
+                      "running Web App 1 in insert mode.</p>");
         } else {
             /* Implementation of "process" view functionality */
             await write_queried_info(req, res, places, urlObj.query.lookup_key);
