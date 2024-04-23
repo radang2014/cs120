@@ -61,7 +61,6 @@ http.createServer(function(req, res) {
             /* Connect to Mongo Database */
             MongoClient.connect(conn_str, async function(err, db) {
                 res.write("<p>Print Statement 3</p>");
-                res.end();
                 if (err) {
                     console.log("Error connecting to database: " + err);
                 } else {
