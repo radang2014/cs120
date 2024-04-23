@@ -34,7 +34,8 @@ http.createServer(function(req, res) {
 
     /* If requesting video demo, respond with video */
     if (urlObj.pathname == "/app1/demo") {
-        res.writeHead(206, {'Content-Type': 'video/mp4'});
+        res.writeHead(200, {'Content-Type': 'video/mp4'});
+
         var video_stream = fs.createReadStream("app1_files/app1_demo.mp4");
         video_stream.pipe(res);
 
@@ -114,7 +115,7 @@ async function write_app1(req, res, db) {
         res.write("<p class=\"error\">ERROR: Your selected mode was neither <code>insert</code> nor <code>delete</code>. " + 
                   "Please fix your query string.</p>");
     } else {
-        /* Embed demo video if no mode specified */
+        /* Link to demo video if no mode specified */
         res.write("<p><a href=\"app1/demo\">Video demo of Web App 1 working</a></p>");
     }
 
