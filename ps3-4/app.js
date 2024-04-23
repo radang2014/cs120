@@ -113,7 +113,7 @@ async function write_app1(req, res, db) {
         res.write("<p><strong>All items in <code>zips.csv</code> successfully inserted into database!</strong></p>");
     } else if (mode == "delete") {
         /* Empty collection */ 
-        places.deleteMany({});
+        await places.deleteMany({});
         res.write("<p><strong>All entries in places collection successfully deleted!</strong></p>");
     } else if (mode != null) {
         res.write("<p class=\"error\">ERROR: Your selected mode was neither <code>insert</code> nor <code>delete</code>. " + 
