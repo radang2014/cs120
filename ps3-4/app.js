@@ -44,7 +44,7 @@ http.createServer(function(req, res) {
 
     res.write("<p>Print Statement 1</p>");
 
-    fs.readFile("css/style.css", function(err, txt) {
+    fs.readFile("css/style.css", async function(err, txt) {
         if (err) {
             console.log("Error reading from file css/style.css: " + err);
         } else {
@@ -60,35 +60,32 @@ http.createServer(function(req, res) {
             res.write("</style>");
 
             /* Connect to Mongo Database */
-            MongoClient.connect(conn_str, async function(err, db) {
+            client = new MongoClient(conn_str);
+            try {
+                await client.connect();
                 res.write("<p>Print Statement 3</p>");
-                if (err) {
-                    console.log("Error connecting to database: " + err);
-                } else {
-                    try {
-                        /* App 1 Page */
-                        if (urlObj.pathname.startsWith("/app1")) {
-                            res.write("<p>Print Statement 4</p>");
-                            await write_app1(req, res, db);
-                        }
 
-                        /* App 2 Page */
-                        if (urlObj.pathname.startsWith("/app2")) {
-                            await write_app2(req, res, db);
-                        }
-                    } catch (err) {
-                        console.log("Database error: " + err);
-                    } finally {
-                        db.close();
-                        res.end();
-                    }
+                /* App 1 Page */
+                if (urlObj.pathname.startsWith("/app1")) {
+                    res.write("<p>Print Statement 4</p>");
+                    await write_app1(req, res, client);
                 }
-            });
+
+                /* App 2 Page */
+                if (urlObj.pathname.startsWith("/app2")) {
+                    await write_app2(req, res, client);
+                }
+            } catch (err) {
+                console.log("Database error: " + err);
+            } finally {
+                client.close();
+                res.end();
+            }
         }
     });
 }).listen(port);
 
-/* Writes contents of Web App 1, using database handle `db` */
+/* Writes contents of Web App 1, using database client handle `db` */
 async function write_app1(req, res, db) {
     var urlObj = url.parse(req.url, true);
 
@@ -166,7 +163,7 @@ async function insert_into_db(req, res, zip_entry, places) {
     }
 }
 
-/* Writes contents of Web App 2, using database handle `db` */
+/* Writes contents of Web App 2, using database client handle `db` */
 async function write_app2(req, res, db) {
     var urlObj = url.parse(req.url, true);
 
