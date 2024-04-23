@@ -1,0 +1,21 @@
+{
+    "name": "ps3-4",
+    "version": "1.0.0",
+    "description": "app for problem set 3-4 of CS 120 ",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/radang2014/cs120/ps3-4"
+    },
+    "author": "Randy Dang",
+    "license": "ISC",
+    "bugs": {
+        "url": ""
+    },
+    "dependencies": {
+        "mongodb": "^6.5.0"
+    }
+}
