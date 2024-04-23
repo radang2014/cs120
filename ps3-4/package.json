@@ -16,7 +16,6 @@
         "url": ""
     },
     "dependencies": {
-        "mongodb": "^6.5.0",
-        "mongodb-connection-string-url": "^3.0.0"
+        "mongodb": "^6.5.0"
     }
 }

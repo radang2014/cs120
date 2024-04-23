@@ -5,7 +5,8 @@ var port = process.env.PORT || 8080;
 /* For connection to mongodb */
 var mongo = require('mongodb');
 const MongoClient = mongo.MongoClient;
-const conn_str = "mongodb+srv://superuser:dbuser123@cs120psets.gunpm1n.mongodb.net/?retryWrites=true&w=majority&appName=cs120psets";
+const conn_str = process.env.MONGODB_URI || 
+                 "mongodb+srv://superuser:dbuser123@cs120psets.gunpm1n.mongodb.net/?retryWrites=true&w=majority&appName=cs120psets";
 
 /* Data / files to read from */
 var fs = require('fs');
