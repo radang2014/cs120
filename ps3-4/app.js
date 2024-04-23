@@ -41,13 +41,10 @@ http.createServer(function(req, res) {
         return;
     }
 
-    res.write("<p>Print Statement 1</p>");
-
     fs.readFile("css/style.css", async function(err, txt) {
         if (err) {
             console.log("Error reading from file css/style.css: " + err);
         } else {
-            res.write("<p>Print Statement 2</p>");
             /* Boilerplate HTML */
             res.write("<!DOCTYPE html>");
             res.write("<style type=\"text/css\">");
@@ -62,11 +59,9 @@ http.createServer(function(req, res) {
             client = new MongoClient(conn_str);
             try {
                 await client.connect();
-                res.write("<p>Print Statement 3</p>");
 
                 /* App 1 Page */
                 if (urlObj.pathname.startsWith("/app1")) {
-                    res.write("<p>Print Statement 4</p>");
                     await write_app1(req, res, client);
                 }
 
